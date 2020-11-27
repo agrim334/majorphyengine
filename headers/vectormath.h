@@ -1,4 +1,5 @@
 #include"namedefs.h"
+#include<random>
 namespace wizphys{
 
 	class Vector3D{
@@ -18,7 +19,9 @@ namespace wizphys{
 			y = ry;
 			z = rz;
 		}
-
+		void clear(){
+			x = y = z = 0;
+		}
 		real magnitude(){
 			return sqrt(x*x+y*y+z*z);
 		}
@@ -59,13 +62,13 @@ namespace wizphys{
 			return vf;
 		}
 
-		void operator+=(Vector3D &v){
+		void operator+=(Vector3D v){
 			x = x + v.x;
 			y = y + v.y;
 			z = z + v.z;
 		}
 
-		void operator-=(Vector3D &v){
+		void operator-=(Vector3D v){
 			x = x - v.x;
 			y = y - v.y;
 			z = z - v.z;
@@ -73,9 +76,8 @@ namespace wizphys{
 
 		void scaledAdd(Vector3D &v, real sf){
 			Vector3D vf;
-			vf.x = sf*v.x;
-			vf.y = sf*v.y;
-			vf.z = sf*v.z;
+			vf = v;
+			vf *= sf;
 			(*this) += vf;
 		}
 

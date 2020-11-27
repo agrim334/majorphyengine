@@ -21,24 +21,32 @@ namespace wizphys{
 			real getMassInverse();
 
 			bool hasMassFinite();
+			bool hasMass0();
 
-			void setPosition(Vector3D pos);
+			void setPosition(Vector3D pos) ;
 			void setPosition(real x,real y,real z);
-			Vector3D getPosition();
+			Vector3D getPosition() const;
+			void getPosition(Vector3D* pos) const;
 
 			void setVelocity(Vector3D v);
 			void setVelocity(real x,real y,real z);
-			Vector3D getVelocity();
+			Vector3D getVelocity() const;
+			void getVelocity(Vector3D* v) const;
 
 			void setAccel(Vector3D a);
 			void setAccel(real x,real y,real z);
-			Vector3D getAccel();
+			Vector3D getAccel() const;
+			void getAccel(Vector3D* a) const;
 
 			void setForceAccum(Vector3D v);
 			void setForceAccum(real x,real y,real z);
-			Vector3D getForceAccum();
+			Vector3D getForceAccum() const;
+			void getForceAccum(Vector3D* f) const;
+			void addForce(Vector3 force);
 
 			void setDamp(real dampval);
-			real getDamp();
+			real getDamp() const;
+
+			void clearAccumulator();
 	};
 }
