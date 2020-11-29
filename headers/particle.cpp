@@ -1,118 +1,138 @@
-#include"particle.h"
-#include<iostream>
-#include<assert.h>
-using namespace std;
-using namespace wizphys;
+#include <assert.h>
+#include "particle.h"
 
-const Vector3D gravity(0,-10,0);
+using namespace cyclone;
 
-void Particle::integrate(real interval){
-	assert(interval > 0.0);
-	position.scaledAdd(velocity, interval);
-	Vector3D resultingAcc = acceleration;
-	resultingAcc.scaledAdd(forceAccum, massinverse);
-	velocity.scaledAdd(resultingAcc, interval);
-	float dampval = pow(damping, interval);
-	velocity *= dampval;
-	clearAccumulator();
+void Particle::integrate(real duration)
+{
+    // We don't integrate things with zero mass.
+    if (inverseMass <= 0.0f) return;
+
+    assert(duration > 0.0);
+
+    // Update linear position.
+    position.addScaledVector(velocity, duration);
+
+    // Work out the acceleration from the force
+    Vector3 resultingAcc = acceleration;
+    resultingAcc.addScaledVector(forceAccum, inverseMass);
+
+    // Update linear velocity from the acceleration.
+    velocity.addScaledVector(resultingAcc, duration);
+
+    // Impose drag.
+    velocity *= real_pow(damping, duration);
+
+    // Clear the forces.
+    clearAccumulator();
 }
 
-void Particle::setMass(real m){
-	mass = m;
-	setMassInverse(mass);
+
+
+void Particle::setMass(const real mass)
+{
+    assert(mass != 0);
+    Particle::inverseMass = ((real)1.0)/mass;
 }
 
-void Particle::setMassInverse(real m){
-	if(m != 0)
-		massinverse = ((real)1)/m;
-	else
-		massinverse = INFINITY;
-}
-real Particle::getMass(){
-	if (massinverse != 0)
-		return mass;
-	else
-		return INFINITY;
+real Particle::getMass() const
+{
+    if (inverseMass == 0) {
+        return REAL_MAX;
+    } else {
+        return ((real)1.0)/inverseMass;
+    }
 }
 
-real Particle::getMassInverse(){
-	if (mass != 0)
-		return massinverse;
-	else
-		return INFINITY;
+void Particle::setInverseMass(const real inverseMass)
+{
+    Particle::inverseMass = inverseMass;
 }
 
-void Particle::setPosition(Vector3D pos){
-	position = pos;
+real Particle::getInverseMass() const
+{
+    return inverseMass;
 }
 
-void Particle::setPosition(real x ,real y , real z){
-	position.x = x;
-	position.y = y;
-	position.z = z;
-
+bool Particle::hasFiniteMass() const
+{
+    return inverseMass >= 0.0f;
 }
 
-Vector3D Particle::getPosition(){
-	return position;
+void Particle::setDamping(const real damping)
+{
+    Particle::damping = damping;
 }
 
-void Particle::getPosition(Vector3D* pos){
-	*pos = position;
+real Particle::getDamping() const
+{
+    return damping;
 }
 
-void Particle::setVelocity(Vector3D v){
-	velocity = v;
+void Particle::setPosition(const Vector3 &position)
+{
+    Particle::position = position;
 }
 
-void Particle::setVelocity(real x ,real y , real z){
-	velocity.x = x;
-	velocity.y = y;
-	velocity.z = z;
+void Particle::setPosition(const real x, const real y, const real z)
+{
+    position.x = x;
+    position.y = y;
+    position.z = z;
 }
 
-Vector3D Particle::getVelocity(){
-	return velocity;
+void Particle::getPosition(Vector3 *position) const
+{
+    *position = Particle::position;
 }
 
-void Particle::getVelocity(Vector3D* v){
-	*v = velocity;
+Vector3 Particle::getPosition() const
+{
+    return position;
 }
 
-void Particle::setAccel(Vector3D a){
-	acceleration = a;
+void Particle::setVelocity(const Vector3 &velocity)
+{
+    Particle::velocity = velocity;
 }
 
-void Particle::setAccel(real x ,real y , real z){
-	acceleration.x = x;
-	acceleration.y = y;
-	acceleration.z = z;
+void Particle::setVelocity(const real x, const real y, const real z)
+{
+    velocity.x = x;
+    velocity.y = y;
+    velocity.z = z;
 }
 
-Vector3D Particle::getAccel(){
-	return acceleration;
+void Particle::getVelocity(Vector3 *velocity) const
+{
+    *velocity = Particle::velocity;
 }
 
-void Particle::getAccel(Vector3D* a){
-	*a = acceleration;
+Vector3 Particle::getVelocity() const
+{
+    return velocity;
 }
 
-void Particle::setForceAccum(Vector3D f){
-	forceAccum = f;
+void Particle::setAcceleration(const Vector3 &acceleration)
+{
+    Particle::acceleration = acceleration;
 }
 
-void Particle::setForceAccum(real x ,real y , real z){
-	forceAccum.x = x;
-	forceAccum.y = y;
-	forceAccum.z = z;
+void Particle::setAcceleration(const real x, const real y, const real z)
+{
+    acceleration.x = x;
+    acceleration.y = y;
+    acceleration.z = z;
 }
 
-Vector3D Particle::getForceAccum(){
-	return forceAccum;
+void Particle::getAcceleration(Vector3 *acceleration) const
+{
+    *acceleration = Particle::acceleration;
 }
 
-void Particle::getForceAccum(Vector3D* f){
-	*f = forceAccum;
+Vector3 Particle::getAcceleration() const
+{
+    return acceleration;
 }
 
 void Particle::clearAccumulator()
@@ -120,29 +140,7 @@ void Particle::clearAccumulator()
     forceAccum.clear();
 }
 
-void Particle::setDamp(real dampval){
-	damping = dampval;
-}
-
-void Particle::addForce(Vector3D force){
-	forceAccum += force;
-}
-
-real Particle::getDamp(){
-	return damping;
-}
-
-int main(){
-	Vector3D v1 = Vector3D(1.0,2.0,0.0);
-	Vector3D v2 = Vector3D(1.0,2.0,3.423);
-	v1.scaledAdd(v2,-29);
-	cout << v1.z << "\n";
-	v1 = v1 - v2;
-	cout << v1.z << "\n";
-	v1 *= 2;
-	cout << v1.z << "\n";
-	real i = v1.scalarProduct(v2);
-	v1 %= v2;
-	cout << v1.x << "\n";		
-	return 0;
+void Particle::addForce(const Vector3 &force)
+{
+    forceAccum += force;
 }
