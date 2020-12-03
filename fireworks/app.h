@@ -114,3 +114,24 @@ public:
 	 
 	void renderText(float x, float y, const char *text, void* font=NULL);
 };
+
+class MassAggregateApplication : public Application
+{
+protected:
+    cyclone::ParticleWorld world;
+    cyclone::Particle *particleArray;
+    cyclone::GroundContacts groundContactGenerator;
+
+public:
+    MassAggregateApplication(unsigned int particleCount);
+    virtual ~MassAggregateApplication();
+
+    /** Update the particle positions. */
+    virtual void update();
+
+    /** Sets up the graphic rendering. */
+    virtual void initGraphics();
+
+    /** Display the particles. */
+    virtual void display();
+};
