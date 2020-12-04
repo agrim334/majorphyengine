@@ -18,10 +18,6 @@ namespace cyclone {
 		// Holds the value along the z axis. 
 		real z;
 
-	private:
-		// Padding to ensure 4 word alignment. For performance purpose
-		real pad;
-
 	public:
 		// The default constructor creates a zero vector. 
 		Vector3() : x(0), y(0), z(0) {}
