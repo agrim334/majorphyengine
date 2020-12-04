@@ -5,17 +5,6 @@
 #include "precision.h"
 
 namespace cyclone {
-	
-	// Holds the value for energy under which a body will be put to sleep.
-	extern real sleepEpsilon;
-
-	
-	// Sets the current sleep epsilon value
-	 
-	void setSleepEpsilon(real value);
-
-	// Gets the current value of the sleep epsilon parameter.
-	real getSleepEpsilon();
 
   class Vector3
 	{

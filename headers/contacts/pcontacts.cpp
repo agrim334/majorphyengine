@@ -17,14 +17,12 @@ real ParticleContact::calculateSeparatingVelocity() const
     return relativeVelocity * contactNormal;
 }
 
-void ParticleContact::resolveVelocity(real duration)
-{
+void ParticleContact::resolveVelocity(real duration) {
     // Find the velocity in the direction of the contact
     real separatingVelocity = calculateSeparatingVelocity();
 
     // Check if it needs to be resolved
-    if (separatingVelocity > 0)
-    {
+    if (separatingVelocity > 0) {
         // The contact is either separating, or stationary - there's
         // no impulse required.
         return;
@@ -40,8 +38,7 @@ void ParticleContact::resolveVelocity(real duration)
 
     // If we've got a closing velocity due to acceleration build-up,
     // remove it from the new separating velocity
-    if (accCausedSepVelocity < 0)
-    {
+    if (accCausedSepVelocity < 0) {
         newSepVelocity += restitution * accCausedSepVelocity;
 
         // Make sure we haven't removed more than was
@@ -71,8 +68,7 @@ void ParticleContact::resolveVelocity(real duration)
     particle[0]->setVelocity(particle[0]->getVelocity() +
         impulsePerIMass * particle[0]->getInverseMass()
         );
-    if (particle[1])
-    {
+    if (particle[1]) {
         // Particle 1 goes in the opposite direction
         particle[1]->setVelocity(particle[1]->getVelocity() +
             impulsePerIMass * -particle[1]->getInverseMass()
