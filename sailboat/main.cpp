@@ -1,7 +1,5 @@
 /*
  * The main entry point for all demos.
- *
- * Part of the Cyclone physics system.
  */
 
 // Include appropriate OpenGL headers.
@@ -100,9 +98,6 @@ int main(int argc, char** argv)
     // Set up GLUT and the timers
     glutInit(&argc, argv);
     TimingData::init();
-
-    // int x;
-    // std::cin >> x;
 
     // Create the application and its window
     app = getApplication();

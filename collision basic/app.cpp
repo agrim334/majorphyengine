@@ -166,7 +166,7 @@ void MassAggregateApplication::update()
 {
     // Clear accumulators
     world.startFrame();
-
+    std::cout << "in update " << MassAggregateApplication::width << std::endl;
     // Find the duration of the last frame in seconds
     float duration = (float)TimingData::get().lastFrameDuration * 0.001f;
     if (duration <= 0.0f) return;

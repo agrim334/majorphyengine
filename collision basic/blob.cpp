@@ -256,7 +256,7 @@ world(PLATFORM_COUNT+BLOB_COUNT, PLATFORM_COUNT)
 
     // Create the force generator
     blobForceGenerator.particles = blobs;
-    blobForceGenerator.maxAttraction = 20.0f;
+    blobForceGenerator.maxAttraction = -1.0f;
     blobForceGenerator.maxReplusion = 10.0f;
     blobForceGenerator.minNaturalDistance = BLOB_RADIUS*0.75f;
     blobForceGenerator.maxNaturalDistance = BLOB_RADIUS*1.5f;

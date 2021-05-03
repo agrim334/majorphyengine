@@ -9,7 +9,7 @@ namespace cyclone {
 	class Random
 	{
 	public:
-		 // left bitwise rotation		 
+		 // left bitwise rotation
 
 		unsigned rotl(unsigned n, unsigned r);
 		 // right bitwise rotation

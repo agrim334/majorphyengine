@@ -1,3 +1,5 @@
+#include <iostream> // for debugging purpose
+
 /* import headers for all.*/
 #include "precision.h"
 #include "core.h"

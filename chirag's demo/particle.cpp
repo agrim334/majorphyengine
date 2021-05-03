@@ -1,18 +1,7 @@
-/*
- * Implementation file for the particle class.
- */
-
 #include <assert.h>
 #include "particle.h"
 
 using namespace cyclone;
-
-
-/*
- * --------------------------------------------------------------------------
- * FUNCTIONS DECLARED IN HEADER:
- * --------------------------------------------------------------------------
- */
 
 void Particle::integrate(real duration)
 {

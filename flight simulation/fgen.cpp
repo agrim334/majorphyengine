@@ -23,87 +23,6 @@ void ForceRegistry::add(RigidBody *body, ForceGenerator *fg)
     registrations.push_back(registration);
 }
 
-Buoyancy::Buoyancy(const Vector3 &cOfB, real maxDepth, real volume,
-                   real waterHeight, real liquidDensity /* = 1000.0f */)
-{
-    centreOfBuoyancy = cOfB;
-    Buoyancy::liquidDensity = liquidDensity;
-    Buoyancy::maxDepth = maxDepth;
-    Buoyancy::volume = volume;
-    Buoyancy::waterHeight = waterHeight;
-}
-
-void Buoyancy::updateForce(RigidBody *body, real duration)
-{
-    // Calculate the submersion depth
-    Vector3 pointInWorld = body->getPointInWorldSpace(centreOfBuoyancy);
-    real depth = pointInWorld.y;
-
-    // Check if we're out of the water
-    if (depth >= waterHeight + maxDepth) return;
-    Vector3 force(0,0,0);
-
-    // Check if we're at maximum depth
-    if (depth <= waterHeight - maxDepth)
-    {
-        force.y = liquidDensity * volume;
-        body->addForceAtBodyPoint(force, centreOfBuoyancy);
-        return;
-    }
-
-    // Otherwise we are partly submerged
-    force.y = liquidDensity * volume *
-        (depth - maxDepth - waterHeight) / 2 * maxDepth;
-    body->addForceAtBodyPoint(force, centreOfBuoyancy);
-}
-
-Gravity::Gravity(const Vector3& gravity)
-: gravity(gravity)
-{
-}
-
-void Gravity::updateForce(RigidBody* body, real duration)
-{
-    // Check that we do not have infinite mass
-    if (!body->hasFiniteMass()) return;
-
-    // Apply the mass-scaled force to the body
-    body->addForce(gravity * body->getMass());
-}
-
-Spring::Spring(const Vector3 &localConnectionPt,
-               RigidBody *other,
-               const Vector3 &otherConnectionPt,
-               real springConstant,
-               real restLength)
-: connectionPoint(localConnectionPt),
-  otherConnectionPoint(otherConnectionPt),
-  other(other),
-  springConstant(springConstant),
-  restLength(restLength)
-{
-}
-
-void Spring::updateForce(RigidBody* body, real duration)
-{
-    // Calculate the two ends in world space
-    Vector3 lws = body->getPointInWorldSpace(connectionPoint);
-    Vector3 ows = other->getPointInWorldSpace(otherConnectionPoint);
-
-    // Calculate the vector of the spring
-    Vector3 force = lws - ows;
-
-    // Calculate the magnitude of the force
-    real magnitude = force.magnitude();
-    magnitude = real_abs(magnitude - restLength);
-    magnitude *= springConstant;
-
-    // Calculate the final force and apply it
-    force.normalise();
-    force *= -magnitude;
-    body->addForceAtPoint(force, lws);
-}
-
 Aero::Aero(const Matrix3 &tensor, const Vector3 &position, const Vector3 *windspeed)
 {
     Aero::tensor = tensor;
@@ -168,9 +87,4 @@ void AeroControl::updateForce(RigidBody *body, real duration)
 {
     Matrix3 tensor = getTensor();
     Aero::updateForceFromTensor(body, duration, tensor);
-}
-
-void Explosion::updateForce(RigidBody* body, real duration)
-{
-
 }

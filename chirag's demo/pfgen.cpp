@@ -1,7 +1,3 @@
-/*
- * Implementation file for the particle force generators.
- */
-
 #include "pfgen.h"
 
 using namespace cyclone;
