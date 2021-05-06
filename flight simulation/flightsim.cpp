@@ -1,7 +1,3 @@
-/**
- * The flightsim demo.
- */
-
 #include "cyclone.h"
 #include "opengl_headers.h"
 #include "app.h"

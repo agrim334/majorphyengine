@@ -1,7 +1,3 @@
-/*
- * Implementation file for the fine grained collision detector.
- */
-
 #include "collide_fine.h"
 #include <memory.h>
 #include <assert.h>

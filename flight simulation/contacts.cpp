@@ -1,7 +1,3 @@
-/*
- * Implementation file for the contact resolution system.
- */
-
 #include "contacts.h"
 #include <memory.h>
 #include <assert.h>

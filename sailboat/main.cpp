@@ -1,9 +1,7 @@
-/*
- * The main entry point for all demos.
- */
+// The main entry point for all demos.
 
 // Include appropriate OpenGL headers.
-#include "opengl_headers.h"
+#include <GL/glut.h>
 
 // Include the general application structure.
 #include "app.h"
@@ -19,9 +17,8 @@ extern Application* getApplication();
 // Store the global application object.
 Application* app;
 
-/**
- * Creates a window in which to display the scene.
- */
+ // Creates a window in which to display the scene.
+
 void createWindow(const char* title)
 {
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
@@ -30,10 +27,8 @@ void createWindow(const char* title)
     glutCreateWindow(title);
 }
 
-/**
- * Called each frame to update the 3D scene. Delegates to
- * the application.
- */
+ // Called each frame to update the 3D scene. Delegates to
+ // the application.
 void update()
 {
     // Update the timing.
@@ -43,10 +38,9 @@ void update()
     app->update();
 }
 
-/**
- * Called each frame to display the 3D scene. Delegates to
- * the application.
- */
+ // Called each frame to display the 3D scene. Delegates to
+ // the application.
+
 void display()
 {
     app->display();
@@ -56,43 +50,35 @@ void display()
     glutSwapBuffers();
 }
 
-/**
- * Called when a mouse button is pressed. Delegates to the
- * application.
- */
+ // Called when a mouse button is pressed. Delegates to the
+ // application.
+
 void mouse(int button, int state, int x, int y)
 {
     app->mouse(button, state, x, y);
 }
 
-/**
- * Called when the display window changes size.
- */
+ // Called when the display window changes size.
 void reshape(int width, int height)
 {
     app->resize(width, height);
 }
 
-/**
- * Called when a key is pressed.
- */
+ // Called when a key is pressed.
 void keyboard(unsigned char key, int x, int y)
 {
     // Note we omit passing on the x and y: they are rarely needed.
     app->key(key);
 }
 
-/**
- * Called when the mouse is dragged.
- */
+ // Called when the mouse is dragged.
+
 void motion(int x, int y)
 {
     app->mouseDrag(x, y);
 }
 
-/**
- * The main entry point. We pass arguments onto GLUT.
- */
+ // The main entry point. We pass arguments onto GLUT.
 int main(int argc, char** argv)
 {
     // Set up GLUT and the timers
