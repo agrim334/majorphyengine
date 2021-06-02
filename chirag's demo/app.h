@@ -1,7 +1,6 @@
 #include <cstdlib>
 #include "cyclone.h"
 
-//
 // An application is the base class for all demonstration progams.
 // GLUT is a c-style API, which calls bare functions.
  
@@ -77,7 +76,6 @@ public:
 	//
 	// The default implementation does nothing.
 	//
-	// @param key The ascii code of the key that has been pressed.
 	 
 	virtual void key(unsigned char key);
 

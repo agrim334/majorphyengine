@@ -1,19 +1,3 @@
-/*
- * Interface file for the fine grained collision detection system.
- */
-
-/**
- * @file
- *
- * This file contains the fine grained collision detection system.
- * It is used to return contacts between pairs of primitives.
- *
- * There are two groups of tests in this file. Intersection tests
- * use the fastest separating axis method to check if two objects
- * intersect, and the collision tests generate the contacts. The
- * collision tests typically use the intersection tests as an early
- * out.
- */
 #ifndef CYCLONE_COLLISION_FINE_H
 #define CYCLONE_COLLISION_FINE_H
 

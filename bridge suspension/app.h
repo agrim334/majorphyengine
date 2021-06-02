@@ -76,8 +76,6 @@ public:
 	// Called when a keypress is detected.
 	//
 	// The default implementation does nothing.
-	//
-	// @param key The ascii code of the key that has been pressed.
 	 
 	virtual void key(unsigned char key);
 

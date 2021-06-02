@@ -420,8 +420,6 @@ namespace cyclone {
 		/**
 		 * Gets the rotation of the rigid body.
 		 *
-		 * @return The rotation of the rigid body. The rotation is
-		 * given in world local space.
 		 */
 		Vector3 getRotation() const;
 
