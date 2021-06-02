@@ -1,6 +1,3 @@
-/*
- * The explosion demo.
- */
 
 #include "cyclone.h"
 #include "opengl_headers.h"

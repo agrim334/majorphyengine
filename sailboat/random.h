@@ -1,11 +1,3 @@
-/*
- * Interface file for the random number generator.
- *
- */
-
-/**
- * This file contains the definitions for a random number generator.
- */
 #ifndef CYCLONE_RANDOM_H
 #define CYCLONE_RANDOM_H
 

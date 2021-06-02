@@ -1,6 +1,3 @@
-/**
- * Implementation file for random number generation.
- */
 
 #include <cstdlib>
 #include <ctime>

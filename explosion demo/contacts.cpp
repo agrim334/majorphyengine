@@ -1,7 +1,3 @@
-/*
- * Implementation file for the contact resolution system.
- */
-
 #include "contacts.h"
 #include <memory.h>
 #include <assert.h>
@@ -495,11 +491,6 @@ void Contact::applyPositionChange(Vector3 linearChange[2],
     }
 }
 
-
-
-
-
-// Contact resolver implementation
 
 ContactResolver::ContactResolver(unsigned iterations,
                                  real velocityEpsilon,

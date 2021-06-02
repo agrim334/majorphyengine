@@ -1,7 +1,3 @@
-/**
- * The definition file for the default application object.
- */
-
 #include <cstring>
 #include "opengl_headers.h"
 #include "app.h"

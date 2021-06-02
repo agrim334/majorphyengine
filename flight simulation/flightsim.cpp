@@ -6,9 +6,6 @@
 #include <stdio.h>
 #include <cassert>
 
-/**
- * The main demo class definition.
- */
 class FlightSimDemo : public Application
 {
     cyclone::AeroControl left_wing;

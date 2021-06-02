@@ -1,14 +1,5 @@
-/**
- * The main entry point for all demos.
- */
-
-// Include appropriate OpenGL headers.
 #include "opengl_headers.h"
-
-// Include the general application structure.
 #include "app.h"
-
-// Include the timing functions
 #include "timing.h"
 
 // Forward declaration of the function that will return the

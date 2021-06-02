@@ -1,20 +1,9 @@
-/*
- * Implementation file for the rigid body class.
- *
- */
 
 #include "body.h"
 #include <memory.h>
 #include <assert.h>
 
 using namespace cyclone;
-
-
-/*
- * --------------------------------------------------------------------------
- * INTERNAL OR HELPER FUNCTIONS:
- * --------------------------------------------------------------------------
- */
 
 /**
  * Internal function that checks the validity of an inverse inertia tensor.
@@ -124,11 +113,6 @@ static inline void _calculateTransformMatrix(Matrix4 &transformMatrix,
     transformMatrix.data[11] = position.z;
 }
 
-/*
- * --------------------------------------------------------------------------
- * FUNCTIONS DECLARED IN HEADER:
- * --------------------------------------------------------------------------
- */
 void RigidBody::calculateDerivedData()
 {
     orientation.normalise();

@@ -1,7 +1,3 @@
-/*
- * Timing functions, frame management and profiling. (implementation)
- */
-
 #include "timing.h"
 
 
@@ -26,8 +22,6 @@ static bool qpcFlag;
 
 	static double qpcFrequency;
 #endif
-
-
 
 // Internal time and clock access functions
 unsigned systemTime()

@@ -6,10 +6,6 @@
 #include <stdio.h>
 #include <cassert>
 
-
-/**
- * The main demo class definition.
- */
 class SailboatDemo : public Application
 {
     cyclone::Buoyancy buoyancy;

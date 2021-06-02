@@ -1,7 +1,3 @@
-/*
- * Interface file for the force generators.
- */
-
 #ifndef CYCLONE_FGEN_H
 #define CYCLONE_FGEN_H
 

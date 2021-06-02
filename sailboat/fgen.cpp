@@ -1,7 +1,3 @@
-/*
- * Implementation file for the rigid body force generators.
- */
-
 #include "fgen.h"
 
 using namespace cyclone;

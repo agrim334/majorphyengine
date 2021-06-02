@@ -1,18 +1,3 @@
-/*
- * Interface file for the contact resolution system.
- */
-
-/**
- * This file contains the contact resolution system for cyclone,
- * although it is called the contact resolution system, it handles
- * collisions, contacts (sliding and resting), and constraints (such
- * as joints).
- *
- * The resolver uses an iterative satisfaction algorithm; it loops
- * through each contact and tries to resolve it. This is a very fast
- * algorithm but can be unstable when the contacts are highly
- * inter-related.
- */
 #ifndef CYCLONE_CONTACTS_H
 #define CYCLONE_CONTACTS_H
 
@@ -20,35 +5,10 @@
 
 namespace cyclone {
 
-    /*
-     * Forward declaration, see full declaration below for complete
-     * documentation.
-     */
     class ContactResolver;
 
-    /**
-     * A contact represents two bodies in contact. Resolving a
-     * contact removes their interpenetration, and applies sufficient
-     * impulse to keep them apart. Colliding bodies may also rebound.
-     * Contacts can be used to represent positional joints, by making
-     * the contact constraint keep the bodies in their correct
-     * orientation.
-     *
-     * It can be a good idea to create a contact object even when the
-     * contact isn't violated. Because resolving one contact can violate
-     * another, contacts that are close to being violated should be
-     * sent to the resolver; that way if one resolution moves the body,
-     * the contact may be violated, and can be resolved. If the contact
-     * is not violated, it will not be resolved, so you only loose a
-     * small amount of execution time.
-     *
-     * The contact has no callable functions, it just holds the contact
-     * details. To resolve a set of contacts, use the contact resolver
-     * class.
-     */
     class Contact
     {
-        // ... Other data as before ...
 
         /**
          * The contact resolver object needs access into the contacts to
@@ -208,54 +168,6 @@ namespace cyclone {
         Vector3 calculateFrictionImpulse(Matrix3 *inverseInertiaTensor);
     };
 
-    /**
-     * The contact resolution routine. One resolver instance
-     * can be shared for the whole simulation, as long as you need
-     * roughly the same parameters each time (which is normal).
-     *
-     * @section algorithm Resolution Algorithm
-     *
-     * The resolver uses an iterative satisfaction algorithm; it loops
-     * through each contact and tries to resolve it. Each contact is
-     * resolved locally, which may in turn put other contacts in a worse
-     * position. The algorithm then revisits other contacts and repeats
-     * the process up to a specified iteration limit. It can be proved
-     * that given enough iterations, the simulation will get to the
-     * correct result. As with all approaches, numerical stability can
-     * cause problems that make a correct resolution impossible.
-     *
-     * @subsection strengths Strengths
-     *
-     * This algorithm is very fast, much faster than other physics
-     * approaches. Even using many more iterations than there are
-     * contacts, it will be faster than global approaches.
-     *
-     * Many global algorithms are unstable under high friction, this
-     * approach is very robust indeed for high friction and low
-     * restitution values.
-     *
-     * The algorithm produces visually believable behaviour. Tradeoffs
-     * have been made to err on the side of visual realism rather than
-     * computational expense or numerical accuracy.
-     *
-     * @subsection weaknesses Weaknesses
-     *
-     * The algorithm does not cope well with situations with many
-     * inter-related contacts: stacked boxes, for example. In this
-     * case the simulation may appear to jiggle slightly, which often
-     * dislodges a box from the stack, allowing it to collapse.
-     *
-     * Another issue with the resolution mechanism is that resolving
-     * one contact may make another contact move sideways against
-     * friction, because each contact is handled independently, this
-     * friction is not taken into account. If one object is pushing
-     * against another, the pushed object may move across its support
-     * without friction, even though friction is set between those bodies.
-     *
-     * In general this resolver is not suitable for stacks of bodies,
-     * but is perfect for handling impact, explosive, and flat resting
-     * situations.
-     */
     class ContactResolver
     {
     protected:
@@ -356,29 +268,11 @@ namespace cyclone {
 
         /**
          * Resolves a set of contacts for both penetration and velocity.
-         *
          * Contacts that cannot interact with
          * each other should be passed to separate calls to resolveContacts,
          * as the resolution algorithm takes much longer for lots of
          * contacts than it does for the same number of contacts in small
          * sets.
-         *
-         * @param contactArray Pointer to an array of contact objects.
-         *
-         * @param numContacts The number of contacts in the array to resolve.
-         *
-         * @param numIterations The number of iterations through the
-         * resolution algorithm. This should be at least the number of
-         * contacts (otherwise some constraints will not be resolved -
-         * although sometimes this is not noticable). If the iterations are
-         * not needed they will not be used, so adding more iterations may
-         * not make any difference. In some cases you would need millions
-         * of iterations. Think about the number of iterations as a bound:
-         * if you specify a large number, sometimes the algorithm WILL use
-         * it, and you may drop lots of frames.
-         *
-         * @param duration The duration of the previous integration step.
-         * This is used to compensate for forces applied.
          */
         void resolveContacts(Contact *contactArray,
             unsigned numContacts,
@@ -428,6 +322,6 @@ namespace cyclone {
         virtual unsigned addContact(Contact *contact, unsigned limit) const = 0;
     };
 
-} // namespace cyclone
+} 
 
-#endif // CYCLONE_CONTACTS_H
+#endif 

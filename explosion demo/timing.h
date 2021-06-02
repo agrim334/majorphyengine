@@ -1,17 +1,6 @@
-/*
- * Timing functions.
- */
-
-/**
- * This file holds the timing system for the physics demos.
- */
 #ifndef CYCLONE_DEMO_TIMING_H
 #define CYCLONE_DEMO_TIMING_H
 
-/**
- * Represents all the information that the demo might need about the
- * timing of the game: current time, fps, frame number, and so on.
- */
 struct TimingData
 {
     /** The current render frame. This simply increments. */

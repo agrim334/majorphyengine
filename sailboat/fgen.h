@@ -1,15 +1,7 @@
-/*
- * Interface file for the force generators.
- */
-
-/**
- * This file contains the interface and sample force generators.
- */
 #ifndef CYCLONE_FGEN_H
 #define CYCLONE_FGEN_H
 
 #include "body.h"
-// #include "pfgen.h"
 #include <vector>
 
 namespace cyclone {

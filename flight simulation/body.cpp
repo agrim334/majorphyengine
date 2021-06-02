@@ -4,12 +4,6 @@
 
 using namespace cyclone;
 
-/*
- * -------------------------
- * INTERNAL OR HELPER FUNCTIONS:
- * ------------------------- 
- */
-
 static inline void _checkInverseInertiaTensor(const Matrix3 &iitWorld)
 {
     // TODO: Perform a validity check in an assert.

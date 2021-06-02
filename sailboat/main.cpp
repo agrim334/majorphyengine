@@ -1,17 +1,7 @@
-// The main entry point for all demos.
-
-// Include appropriate OpenGL headers.
 #include <GL/glut.h>
-
-// Include the general application structure.
 #include "app.h"
-
-// Include the timing functions
 #include "timing.h"
 
-// Forward declaration of the function that will return the
-// application object for this particular demo. This should be
-// implemented in the demo's .cpp file.
 extern Application* getApplication();
 
 // Store the global application object.

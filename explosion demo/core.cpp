@@ -1,7 +1,3 @@
-/**
- * Implementation file for core functions in the library.
- */
-
 #include "core.h"
 
 using namespace cyclone;

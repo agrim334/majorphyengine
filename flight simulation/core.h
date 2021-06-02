@@ -1,9 +1,4 @@
 #include <math.h>
-
-/**
- * The core contains utility functions, helpers and a basic set of
- * mathematical types.
- */
 #ifndef CYCLONE_CORE_H
 #define CYCLONE_CORE_H
 
@@ -34,34 +29,17 @@ namespace cyclone {
      * moving, or light objects), this may need reducing.
      *
      * The value is global; all bodies will use it.
-     *
-     * @see sleepEpsilon
-     *
-     * @see getSleepEpsilon
-     *
-     * @param value The sleep epsilon value to use from this point
-     * on.
      */
     void setSleepEpsilon(real value);
 
     /**
      * Gets the current value of the sleep epsilon parameter.
-     *
-     * @see sleepEpsilon
-     *
-     * @see setSleepEpsilon
-     *
-     * @return The current value of the parameter.
      */
     real getSleepEpsilon();
 
     /**
      * Holds a vector in 3 dimensions. Four data members are allocated
      * to ensure alignment in an array.
-     *
-     * @note This class contains a lot of inline methods for basic
-     * mathematics. The implementations are included in the header
-     * file.
      */
     class Vector3
     {
@@ -99,7 +77,6 @@ namespace cyclone {
         const static Vector3 Y;
         const static Vector3 Z;
 
-        // ... Other Vector3 code as before ...
 
 
         real operator[](unsigned i) const
@@ -361,23 +338,6 @@ namespace cyclone {
 
     };
 
-    /**
-     * Holds a three degree of freedom orientation.
-     *
-     * Quaternions have
-     * several mathematical properties that make them useful for
-     * representing orientations, but require four items of data to
-     * hold the three degrees of freedom. These four items of data can
-     * be viewed as the coefficients of a complex number with three
-     * imaginary parts. The mathematics of the quaternion is then
-     * defined and is roughly correspondent to the math of 3D
-     * rotations. A quaternion is only a valid rotation if it is
-     * normalised: i.e. it has a length of 1.
-     *
-     * @note Angular velocity and acceleration can be correctly
-     * represented as vectors. Quaternions are only needed for
-     * orientation.
-     */
     class Quaternion
     {
     public:
@@ -421,30 +381,6 @@ namespace cyclone {
          */
         Quaternion() : r(1), i(0), j(0), k(0) {}
 
-        /**
-         * The explicit constructor creates a quaternion with the given
-         * components.
-         *
-         * @param r The real component of the rigid body's orientation
-         * quaternion.
-         *
-         * @param i The first complex component of the rigid body's
-         * orientation quaternion.
-         *
-         * @param j The second complex component of the rigid body's
-         * orientation quaternion.
-         *
-         * @param k The third complex component of the rigid body's
-         * orientation quaternion.
-         *
-         * @note The given orientation does not need to be normalised,
-         * and can be zero. This function will not alter the given
-         * values, or normalise the quaternion. To normalise the
-         * quaternion (and make a zero quaternion a legal rotation),
-         * use the normalise function.
-         *
-         * @see normalise
-         */
         Quaternion(const real r, const real i, const real j, const real k)
             : r(r), i(i), j(j), k(k)
         {
@@ -494,10 +430,6 @@ namespace cyclone {
          * Adds the given vector to this, scaled by the given amount.
          * This is used to update the orientation quaternion by a rotation
          * and time.
-         *
-         * @param vector The vector to add.
-         *
-         * @param scale The amount of the vector to add.
          */
         void addScaledVector(const Vector3& vector, real scale)
         {
@@ -531,9 +463,6 @@ namespace cyclone {
          * Holds the transform matrix data in array form.
          */
         real data[12];
-
-        // ... Other Matrix4 code as before ...
-
 
         /**
          * Creates an identity matrix.
@@ -621,7 +550,6 @@ namespace cyclone {
         /**
          * Sets the matrix to be the inverse of the given matrix.
          *
-         * @param m The matrix to invert and use to set this.
          */
         void setInverse(const Matrix4 &m);
 
@@ -643,11 +571,6 @@ namespace cyclone {
 
         /**
          * Transform the given direction vector by this matrix.
-         *
-         * @note When a direction is converted between frames of
-         * reference, there is no translation required.
-         *
-         * @param vector The vector to transform.
          */
         Vector3 transformDirection(const Vector3 &vector) const
         {
@@ -669,18 +592,6 @@ namespace cyclone {
         /**
          * Transform the given direction vector by the
          * transformational inverse of this matrix.
-         *
-         * @note This function relies on the fact that the inverse of
-         * a pure rotation matrix is its transpose. It separates the
-         * translational and rotation components, transposes the
-         * rotation, and multiplies out. If the matrix is not a
-         * scale and shear free transform matrix, then this function
-         * will not give correct results.
-         *
-         * @note When a direction is converted between frames of
-         * reference, there is no translation required.
-         *
-         * @param vector The vector to transform.
          */
         Vector3 transformInverseDirection(const Vector3 &vector) const
         {
@@ -702,15 +613,6 @@ namespace cyclone {
         /**
          * Transform the given vector by the transformational inverse
          * of this matrix.
-         *
-         * @note This function relies on the fact that the inverse of
-         * a pure rotation matrix is its transpose. It separates the
-         * translational and rotation components, transposes the
-         * rotation, and multiplies out. If the matrix is not a
-         * scale and shear free transform matrix, then this function
-         * will not give correct results.
-         *
-         * @param vector The vector to transform.
          */
         Vector3 transformInverse(const Vector3 &vector) const
         {
@@ -735,11 +637,6 @@ namespace cyclone {
 
         /**
          * Gets a vector representing one axis (i.e. one column) in the matrix.
-         *
-         * @param i The row to return. Row 3 corresponds to the position
-         * of the transform matrix.
-         *
-         * @return The vector.
          */
         Vector3 getAxisVector(int i) const
         {
@@ -813,7 +710,6 @@ namespace cyclone {
          */
         real data[9];
 
-        // ... Other Matrix3 code as before ...
 
         /**
          * Creates a new matrix.
@@ -957,8 +853,6 @@ namespace cyclone {
 
         /**
          * Gets a vector representing one row in the matrix.
-         *
-         * @param i The row to return.
          */
         Vector3 getRowVector(int i) const
         {
@@ -967,10 +861,6 @@ namespace cyclone {
 
         /**
          * Gets a vector representing one axis (i.e. one column) in the matrix.
-         *
-         * @param i The row to return.
-         *
-         * @return The vector.
          */
         Vector3 getAxisVector(int i) const
         {
@@ -979,8 +869,6 @@ namespace cyclone {
 
         /**
          * Sets the matrix to be the inverse of the given matrix.
-         *
-         * @param m The matrix to invert and use to set this.
          */
         void setInverse(const Matrix3 &m)
         {
@@ -1028,8 +916,6 @@ namespace cyclone {
 
         /**
          * Sets the matrix to be the transpose of the given matrix.
-         *
-         * @param m The matrix to transpose and use to set this.
          */
         void setTranspose(const Matrix3 &m)
         {
