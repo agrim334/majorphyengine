@@ -2,7 +2,7 @@
 #include <memory.h>
 #include <assert.h>
 
-using namespace cyclone;
+using namespace phyengine;
 
 // Contacts Implementation 
 

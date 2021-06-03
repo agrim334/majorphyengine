@@ -1,10 +1,10 @@
 
-#ifndef CYCLONE_CONTACTS_H
-#define CYCLONE_CONTACTS_H
+#ifndef PHYENGINE_CONTACTS_H
+#define PHYENGINE_CONTACTS_H
 
 #include "body.h"
 
-namespace cyclone {
+namespace phyengine {
 
 	class ContactResolver;
 
@@ -16,17 +16,6 @@ namespace cyclone {
 	 * the contact constraint keep the bodies in their correct
 	 * orientation.
 	 *
-	 * It can be a good idea to create a contact object even when the
-	 * contact isn't violated. Because resolving one contact can violate
-	 * another, contacts that are close to being violated should be
-	 * sent to the resolver; that way if one resolution moves the body,
-	 * the contact may be violated, and can be resolved. If the contact
-	 * is not violated, it will not be resolved, so you only loose a
-	 * small amount of execution time.
-	 *
-	 * The contact has no callable functions, it just holds the contact
-	 * details. To resolve a set of contacts, use the contact resolver
-	 * class.
 	 */
 	class Contact
 	{
@@ -343,6 +332,6 @@ namespace cyclone {
 		virtual unsigned addContact(Contact *contact, unsigned limit) const = 0;
 	};
 
-} // namespace cyclone
+} // namespace phyengine
 
-#endif // CYCLONE_CONTACTS_H
+#endif // PHYENGINE_CONTACTS_H

@@ -4,7 +4,7 @@
 #include <cstdlib>
 #include <cstdio>
 
-using namespace cyclone;
+using namespace phyengine;
 
 void CollisionPrimitive::calculateInternals()
 {

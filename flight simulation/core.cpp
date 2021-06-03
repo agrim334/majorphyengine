@@ -1,6 +1,6 @@
 #include "core.h"
 
-using namespace cyclone;
+using namespace phyengine;
 
 const Vector3 Vector3::GRAVITY = Vector3(0, -9.81, 0);
 const Vector3 Vector3::HIGH_GRAVITY = Vector3(0, -19.62, 0);
@@ -14,19 +14,19 @@ const Vector3 Vector3::Z = Vector3(0, 0, 1);
 /*
  * Definition of the sleep epsilon extern.
  */
-real cyclone::sleepEpsilon = ((real)0.3);
+real phyengine::sleepEpsilon = ((real)0.3);
 
 /*
  * Functions to change sleepEpsilon.
  */
-void cyclone::setSleepEpsilon(real value)
+void phyengine::setSleepEpsilon(real value)
 {
-    cyclone::sleepEpsilon = value;
+    phyengine::sleepEpsilon = value;
 }
 
-real cyclone::getSleepEpsilon()
+real phyengine::getSleepEpsilon()
 {
-    return cyclone::sleepEpsilon;
+    return phyengine::sleepEpsilon;
 }
 
 real Matrix4::getDeterminant() const

@@ -34,7 +34,7 @@ void update()
     // Update the timing.
     TimingData::get().update();
 
-    // Delegate to the application.
+    // Delegate to the application. --basically, just glutPostRedisplay();
     app->update();
 }
 
@@ -43,6 +43,7 @@ void update()
 
 void display()
 {
+    // glLoadIdentity(); does not make a diff
     app->display();
 
     // Update the displayed content.

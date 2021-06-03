@@ -1,9 +1,9 @@
-#ifndef CYCLONE_PRECISION_H
-#define CYCLONE_PRECISION_H
+#ifndef PHYENGINE_PRECISION_H
+#define PHYENGINE_PRECISION_H
 
 #include <float.h>
 
-namespace cyclone {
+namespace phyengine {
 
 #if 0
 //constants and global way to set precision (float for single double for double)

@@ -1,4 +1,4 @@
-#include "cyclone.h"
+#include "phyengine.h"
 #include <GL/glut.h>
 #include "app.h"
 #include "timing.h"
@@ -15,27 +15,27 @@
  * Platforms are two dimensional: lines on which the
  * particles can rest. Platforms are also contact generators for the physics.
  */
-class Platform : public cyclone::ParticleContactGenerator
+class Platform : public phyengine::ParticleContactGenerator
 {
 public:
-    cyclone::Vector3 start;
-    cyclone::Vector3 end;
+    phyengine::Vector3 start;
+    phyengine::Vector3 end;
 
     /**
      * Holds a pointer to the particles we're checking for collisions with.
      */
-    cyclone::Particle *particles;
+    phyengine::Particle *particles;
 
     virtual unsigned addContact(
-        cyclone::ParticleContact *contact,
+        phyengine::ParticleContact *contact,
         unsigned limit
         ) const;
 };
 
-unsigned Platform::addContact(cyclone::ParticleContact *contact,
+unsigned Platform::addContact(phyengine::ParticleContact *contact,
                               unsigned limit) const
 {
-    const static cyclone::real restitution = 0.0f;
+    const static phyengine::real restitution = 0.0f;
 
     unsigned used = 0;
     for (unsigned i = 0; i < BLOB_COUNT; i++)
@@ -43,10 +43,10 @@ unsigned Platform::addContact(cyclone::ParticleContact *contact,
         if (used >= limit) break;
 
         // Check for penetration
-        cyclone::Vector3 toParticle = particles[i].getPosition() - start;
-        cyclone::Vector3 lineDirection = end - start;
-        cyclone::real projected = toParticle * lineDirection;
-        cyclone::real platformSqLength = lineDirection.squareMagnitude();
+        phyengine::Vector3 toParticle = particles[i].getPosition() - start;
+        phyengine::Vector3 lineDirection = end - start;
+        phyengine::real projected = toParticle * lineDirection;
+        phyengine::real platformSqLength = lineDirection.squareMagnitude();
         if (projected <= 0)
         {
             // The blob is nearest to the start point
@@ -84,13 +84,13 @@ unsigned Platform::addContact(cyclone::ParticleContact *contact,
         else
         {
             // the blob is nearest to the middle.
-            cyclone::real distanceToPlatform =
+            phyengine::real distanceToPlatform =
                 toParticle.squareMagnitude() -
                 projected*projected / platformSqLength;
             if (distanceToPlatform < BLOB_RADIUS*BLOB_RADIUS)
             {
                 // We have a collision
-                cyclone::Vector3 closestPoint =
+                phyengine::Vector3 closestPoint =
                     start + lineDirection*(projected/platformSqLength);
 
                 contact->contactNormal = (particles[i].getPosition()-closestPoint).unit();
@@ -110,34 +110,34 @@ unsigned Platform::addContact(cyclone::ParticleContact *contact,
 /**
  * A force generator for proximal attraction.
  */
-class BlobForceGenerator : public cyclone::ParticleForceGenerator
+class BlobForceGenerator : public phyengine::ParticleForceGenerator
 {
 public:
     /**
     * Holds a pointer to the particles we might be attracting.
     */
-    cyclone::Particle *particles;
+    phyengine::Particle *particles;
 
     /**
      * The maximum force used to push the particles apart.
      */
-    cyclone::real maxReplusion;
+    phyengine::real maxReplusion;
 
     /**
      * The maximum force used to pull particles together.
      */
-    cyclone::real maxAttraction;
+    phyengine::real maxAttraction;
 
     /**
      * The separation between particles where there is no force.
      */
-    cyclone::real minNaturalDistance, maxNaturalDistance;
+    phyengine::real minNaturalDistance, maxNaturalDistance;
 
     /**
      * The force with which to float the head particle, if it is
      * joined to others.
      */
-    cyclone::real floatHead;
+    phyengine::real floatHead;
 
     /**
      * The maximum number of particles in the blob before the head
@@ -149,16 +149,16 @@ public:
      * The separation between particles after which they 'break' apart and
      * there is no force.
      */
-    cyclone::real maxDistance;
+    phyengine::real maxDistance;
 
     virtual void updateForce(
-        cyclone::Particle *particle,
-        cyclone::real duration
+        phyengine::Particle *particle,
+        phyengine::real duration
         );
 };
 
-void BlobForceGenerator::updateForce(cyclone::Particle *particle,
-                                      cyclone::real duration)
+void BlobForceGenerator::updateForce(phyengine::Particle *particle,
+                                      phyengine::real duration)
 {
     unsigned joinCount = 0;
     for (unsigned i = 0; i < BLOB_COUNT; i++)
@@ -167,10 +167,10 @@ void BlobForceGenerator::updateForce(cyclone::Particle *particle,
         if (particles + i == particle) continue;
 
         // Work out the separation distance
-        cyclone::Vector3 separation =
+        phyengine::Vector3 separation =
             particles[i].getPosition() - particle->getPosition();
         separation.z = 0.0f;
-        cyclone::real distance = separation.magnitude();
+        phyengine::real distance = separation.magnitude();
 
         if (distance < minNaturalDistance)
         {
@@ -197,9 +197,9 @@ void BlobForceGenerator::updateForce(cyclone::Particle *particle,
     // If the particle is the head, and we've got a join count, then float it.
     if (particle == particles && joinCount > 0 && maxFloat > 0)
     {
-        cyclone::real force = cyclone::real(joinCount / maxFloat) * floatHead;
+        phyengine::real force = phyengine::real(joinCount / maxFloat) * floatHead;
         if (force > floatHead) force = floatHead;
-        particle->addForce(cyclone::Vector3(0, force, 0));
+        particle->addForce(phyengine::Vector3(0, force, 0));
     }
 
 }
@@ -209,11 +209,11 @@ void BlobForceGenerator::updateForce(cyclone::Particle *particle,
  */
 class BlobDemo : public Application
 {
-    cyclone::Particle *blobs;
+    phyengine::Particle *blobs;
 
     Platform *platforms;
 
-    cyclone::ParticleWorld world;
+    phyengine::ParticleWorld world;
 
     BlobForceGenerator blobForceGenerator;
 
@@ -251,8 +251,8 @@ xAxis(0), yAxis(0),
 world(PLATFORM_COUNT+BLOB_COUNT, PLATFORM_COUNT)
 {
     // Create the blob storage
-    blobs = new cyclone::Particle[BLOB_COUNT];
-    cyclone::Random r;
+    blobs = new phyengine::Particle[BLOB_COUNT];
+    phyengine::Random r;
 
     // Create the force generator
     blobForceGenerator.particles = blobs;
@@ -268,16 +268,16 @@ world(PLATFORM_COUNT+BLOB_COUNT, PLATFORM_COUNT)
     platforms = new Platform[PLATFORM_COUNT];
     for (unsigned i = 0; i < PLATFORM_COUNT; i++)
     {
-        platforms[i].start = cyclone::Vector3(
-            cyclone::real(i%2)*10.0f - 5.0f,
-            cyclone::real(i)*4.0f + ((i%2)?0.0f:2.0f),
+        platforms[i].start = phyengine::Vector3(
+            phyengine::real(i%2)*10.0f - 5.0f,
+            phyengine::real(i)*4.0f + ((i%2)?0.0f:2.0f),
             0);
         platforms[i].start.x += r.randomBinomial(2.0f);
         platforms[i].start.y += r.randomBinomial(2.0f);
 
-        platforms[i].end = cyclone::Vector3(
-            cyclone::real(i%2)*10.0f + 5.0f,
-            cyclone::real(i)*4.0f + ((i%2)?2.0f:0.0f),
+        platforms[i].end = phyengine::Vector3(
+            phyengine::real(i%2)*10.0f + 5.0f,
+            phyengine::real(i)*4.0f + ((i%2)?2.0f:0.0f),
             0);
         platforms[i].end.x += r.randomBinomial(2.0f);
         platforms[i].end.y += r.randomBinomial(2.0f);
@@ -290,18 +290,18 @@ world(PLATFORM_COUNT+BLOB_COUNT, PLATFORM_COUNT)
 
     // Create the blobs.
     Platform *p = platforms + (PLATFORM_COUNT-2);
-    cyclone::real fraction = (cyclone::real)1.0 / BLOB_COUNT;
-    cyclone::Vector3 delta = p->end - p->start;
+    phyengine::real fraction = (phyengine::real)1.0 / BLOB_COUNT;
+    phyengine::Vector3 delta = p->end - p->start;
     for (unsigned i = 0; i < BLOB_COUNT; i++)
     {
         unsigned me = (i+BLOB_COUNT/2) % BLOB_COUNT;
         blobs[i].setPosition(
-            p->start + delta * (cyclone::real(me)*0.8f*fraction+0.1f) +
-            cyclone::Vector3(0, 1.0f+r.randomReal(), 0));
+            p->start + delta * (phyengine::real(me)*0.8f*fraction+0.1f) +
+            phyengine::Vector3(0, 1.0f+r.randomReal(), 0));
 
         blobs[i].setVelocity(0,0,0);
         blobs[i].setDamping(0.2f);
-        blobs[i].setAcceleration(cyclone::Vector3::GRAVITY * 0.4f);
+        blobs[i].setAcceleration(phyengine::Vector3::GRAVITY * 0.4f);
         blobs[i].setMass(1.0f);
         blobs[i].clearAccumulator();
 
@@ -312,16 +312,16 @@ world(PLATFORM_COUNT+BLOB_COUNT, PLATFORM_COUNT)
 
 void BlobDemo::reset()
 {
-    cyclone::Random r;
+    phyengine::Random r;
     Platform *p = platforms + (PLATFORM_COUNT-2);
-    cyclone::real fraction = (cyclone::real)1.0 / BLOB_COUNT;
-    cyclone::Vector3 delta = p->end - p->start;
+    phyengine::real fraction = (phyengine::real)1.0 / BLOB_COUNT;
+    phyengine::Vector3 delta = p->end - p->start;
     for (unsigned i = 0; i < BLOB_COUNT; i++)
     {
         unsigned me = (i+BLOB_COUNT/2) % BLOB_COUNT;
         blobs[i].setPosition(
-            p->start + delta * (cyclone::real(me)*0.8f*fraction+0.1f) +
-            cyclone::Vector3(0, 1.0f+r.randomReal(), 0));
+            p->start + delta * (phyengine::real(me)*0.8f*fraction+0.1f) +
+            phyengine::Vector3(0, 1.0f+r.randomReal(), 0));
         blobs[i].setVelocity(0,0,0);
         blobs[i].clearAccumulator();
     }
@@ -334,7 +334,7 @@ BlobDemo::~BlobDemo()
 
 void BlobDemo::display()
 {
-    cyclone::Vector3 pos = blobs[0].getPosition();
+    phyengine::Vector3 pos = blobs[0].getPosition();
 
     // Clear the view port and set the camera direction
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -348,8 +348,8 @@ void BlobDemo::display()
     glColor3f(0,0,1);
     for (unsigned i = 0; i < PLATFORM_COUNT; i++)
     {
-        const cyclone::Vector3 &p0 = platforms[i].start;
-        const cyclone::Vector3 &p1 = platforms[i].end;
+        const phyengine::Vector3 &p0 = platforms[i].start;
+        const phyengine::Vector3 &p1 = platforms[i].end;
         glVertex3f(p0.x, p0.y, p0.z);
         glVertex3f(p1.x, p1.y, p1.z);
     }
@@ -358,15 +358,15 @@ void BlobDemo::display()
     glColor3f(1,0,0);
     for (unsigned i = 0; i < BLOB_COUNT; i++)
     {
-        const cyclone::Vector3 &p = blobs[i].getPosition();
+        const phyengine::Vector3 &p = blobs[i].getPosition();
         glPushMatrix();
         glTranslatef(p.x, p.y, p.z);
         glutSolidSphere(BLOB_RADIUS, 12, 12);
         glPopMatrix();
     }
 
-    cyclone::Vector3 p = blobs[0].getPosition();
-    cyclone::Vector3 v = blobs[0].getVelocity() * 0.05f;
+    phyengine::Vector3 p = blobs[0].getPosition();
+    phyengine::Vector3 v = blobs[0].getVelocity() * 0.05f;
     v.trim(BLOB_RADIUS*0.5f);
     p = p + v;
     glPushMatrix();
@@ -399,13 +399,13 @@ void BlobDemo::update()
     yAxis *= pow(0.1f, duration);
 
     // Move the controlled blob
-    blobs[0].addForce(cyclone::Vector3(xAxis, yAxis, 0)*10.0f);
+    blobs[0].addForce(phyengine::Vector3(xAxis, yAxis, 0)*10.0f);
 
     // Run the simulation
     world.runPhysics(duration);
 
     // Bring all the particles back to 2d
-    cyclone::Vector3 position;
+    phyengine::Vector3 position;
     for (unsigned i = 0; i < BLOB_COUNT; i++)
     {
         blobs[i].getPosition(&position);

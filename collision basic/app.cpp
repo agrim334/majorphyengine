@@ -118,7 +118,7 @@ MassAggregateApplication::MassAggregateApplication(unsigned int particleCount)
 :
 world(particleCount*10)
 {
-    particleArray = new cyclone::Particle[particleCount];
+    particleArray = new phyengine::Particle[particleCount];
     for (unsigned i = 0; i < particleCount; i++)
     {
         world.getParticles().push_back(particleArray + i);
@@ -148,13 +148,13 @@ void MassAggregateApplication::display()
 
     glColor3f(0,0,0);
 
-    cyclone::ParticleWorld::Particles &particles = world.getParticles();
-    for (cyclone::ParticleWorld::Particles::iterator p = particles.begin();
+    phyengine::ParticleWorld::Particles &particles = world.getParticles();
+    for (phyengine::ParticleWorld::Particles::iterator p = particles.begin();
         p != particles.end();
         p++)
     {
-        cyclone::Particle *particle = *p;
-        const cyclone::Vector3 &pos = particle->getPosition();
+        phyengine::Particle *particle = *p;
+        const phyengine::Vector3 &pos = particle->getPosition();
         glPushMatrix();
         glTranslatef(pos.x, pos.y, pos.z);
         glutSolidSphere(0.1f, 20, 10);

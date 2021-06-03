@@ -1,23 +1,14 @@
-
 #include "body.h"
 #include <memory.h>
 #include <assert.h>
 
-using namespace cyclone;
+using namespace phyengine;
 
-/**
- * Internal function that checks the validity of an inverse inertia tensor.
- */
 static inline void _checkInverseInertiaTensor(const Matrix3 &iitWorld)
 {
     // TODO: Perform a validity check in an assert.
 }
 
-/**
- * Internal function to do an intertia tensor transform by a quaternion.
- * Note that the implementation of this function was created by an
- * automated code-generator and optimizer.
- */
 static inline void _transformInertiaTensor(Matrix3 &iitWorld,
                                            const Quaternion &q,
                                            const Matrix3 &iitBody,
@@ -112,6 +103,12 @@ static inline void _calculateTransformMatrix(Matrix4 &transformMatrix,
         2*orientation.j*orientation.j;
     transformMatrix.data[11] = position.z;
 }
+
+/*
+ * --------------------------------------------------------------------------
+ * FUNCTIONS DECLARED IN HEADER:
+ * --------------------------------------------------------------------------
+ */
 
 void RigidBody::calculateDerivedData()
 {

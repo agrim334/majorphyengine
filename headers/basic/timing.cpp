@@ -1,6 +1,7 @@
 #include "timing.h"
-//credits to Ian Millington
 
+
+// Hold internal timing data for the performance counter.
 static bool qpcFlag;
 
 #if (__APPLE__ || __unix)
@@ -21,8 +22,6 @@ static bool qpcFlag;
 
 	static double qpcFrequency;
 #endif
-
-
 
 // Internal time and clock access functions
 unsigned systemTime()
@@ -55,10 +54,12 @@ unsigned TimingData::getTime()
 
 #if TIMING_WINDOWS
 unsigned long systemClock()
-{
-    __asm {
-    	rdtsc;
-    }
+{   
+    UINT64 val;
+    unsigned long h, l;
+    asm volatile("rdtsc" : "=a" (l), "=d" (h));
+    val = ((UINT64)l) | (((UINT64)h) << 32);
+    return val;
 }
 #endif
 

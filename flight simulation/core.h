@@ -1,15 +1,10 @@
 #include <math.h>
-#ifndef CYCLONE_CORE_H
-#define CYCLONE_CORE_H
+#ifndef PHYENGINE_CORE_H
+#define PHYENGINE_CORE_H
 
 #include "precision.h"
 
-/**
- * The cyclone namespace includes all cyclone functions and
- * classes. It is defined as a namespace to allow function and class
- * names to be simple without causing conflicts.
- */
-namespace cyclone {
+namespace phyengine {
 
 	/**
 	 * Holds the value for energy under which a body will be put to
@@ -1019,4 +1014,4 @@ namespace cyclone {
 
 }
 
-#endif // CYCLONE_CORE_H
+#endif // PHYENGINE_CORE_H

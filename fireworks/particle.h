@@ -1,9 +1,9 @@
-#ifndef CYCLONE_PARTICLE_H
-#define CYCLONE_PARTICLE_H
+#ifndef PHYENGINE_PARTICLE_H
+#define PHYENGINE_PARTICLE_H
 
 #include "core.h"
 
-namespace cyclone {
+namespace phyengine {
 
 	/*
 	  A particle is the simplest object that can be simulated in the

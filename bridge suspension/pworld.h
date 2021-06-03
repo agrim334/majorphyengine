@@ -1,10 +1,10 @@
-#ifndef CYCLONE_PWORLD_H
-#define CYCLONE_PWORLD_H
+#ifndef PHYENGINE_PWORLD_H
+#define PHYENGINE_PWORLD_H
 
 #include "pfgen.h"
 #include "plinks.h"
 
-namespace cyclone {
+namespace phyengine {
 
     
 // Keeps track of a set of particles, and provides the means to
@@ -115,17 +115,17 @@ namespace cyclone {
  // A contact generator that takes an STL vector of particle pointers and
 // collides them against the ground.
      
-    class GroundContacts : public cyclone::ParticleContactGenerator
+    class GroundContacts : public phyengine::ParticleContactGenerator
     {
-        cyclone::ParticleWorld::Particles *particles;
+        phyengine::ParticleWorld::Particles *particles;
 
     public:
-        void init(cyclone::ParticleWorld::Particles *particles);
+        void init(phyengine::ParticleWorld::Particles *particles);
 
-        virtual unsigned addContact(cyclone::ParticleContact *contact,
+        virtual unsigned addContact(phyengine::ParticleContact *contact,
             unsigned limit) const;
     };
 
-} // namespace cyclone
+} // namespace phyengine
 
-#endif // CYCLONE_PWORLD_H
+#endif // PHYENGINE_PWORLD_H

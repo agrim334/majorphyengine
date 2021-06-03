@@ -1,6 +1,3 @@
-// The main entry point for all demos.
-
-// Include appropriate OpenGL headers.
 #include <GL/glut.h>
 
 // Include the general application structure.

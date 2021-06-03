@@ -1,4 +1,4 @@
-#include "cyclone.h"
+#include "phyengine.h"
 #include "opengl_headers.h"
 #include "app.h"
 #include "timing.h"
@@ -8,14 +8,14 @@
 
 class FlightSimDemo : public Application
 {
-    cyclone::AeroControl left_wing;
-    cyclone::AeroControl right_wing;
-    cyclone::AeroControl rudder;
-    cyclone::Aero tail;
-    cyclone::RigidBody aircraft;
-    cyclone::ForceRegistry registry;
+    phyengine::AeroControl left_wing;
+    phyengine::AeroControl right_wing;
+    phyengine::AeroControl rudder;
+    phyengine::Aero tail;
+    phyengine::RigidBody aircraft;
+    phyengine::ForceRegistry registry;
 
-    cyclone::Vector3 windspeed;
+    phyengine::Vector3 windspeed;
 
     float left_wing_control;
     float right_wing_control;
@@ -46,23 +46,23 @@ FlightSimDemo::FlightSimDemo()
 :
 Application(),
 
-right_wing(cyclone::Matrix3(0,0,0, -1,-0.5f,0, 0,0,0),
-           cyclone::Matrix3(0,0,0, -0.995f,-0.5f,0, 0,0,0),
-           cyclone::Matrix3(0,0,0, -1.005f,-0.5f,0, 0,0,0),
-           cyclone::Vector3(-1.0f, 0.0f, 2.0f), &windspeed),
+right_wing(phyengine::Matrix3(0,0,0, -1,-0.5f,0, 0,0,0),
+           phyengine::Matrix3(0,0,0, -0.995f,-0.5f,0, 0,0,0),
+           phyengine::Matrix3(0,0,0, -1.005f,-0.5f,0, 0,0,0),
+           phyengine::Vector3(-1.0f, 0.0f, 2.0f), &windspeed),
 
-left_wing(cyclone::Matrix3(0,0,0, -1,-0.5f,0, 0,0,0),
-          cyclone::Matrix3(0,0,0, -0.995f,-0.5f,0, 0,0,0),
-          cyclone::Matrix3(0,0,0, -1.005f,-0.5f,0, 0,0,0),
-          cyclone::Vector3(-1.0f, 0.0f, -2.0f), &windspeed),
+left_wing(phyengine::Matrix3(0,0,0, -1,-0.5f,0, 0,0,0),
+          phyengine::Matrix3(0,0,0, -0.995f,-0.5f,0, 0,0,0),
+          phyengine::Matrix3(0,0,0, -1.005f,-0.5f,0, 0,0,0),
+          phyengine::Vector3(-1.0f, 0.0f, -2.0f), &windspeed),
 
-rudder(cyclone::Matrix3(0,0,0, 0,0,0, 0,0,0),
-       cyclone::Matrix3(0,0,0, 0,0,0, 0.01f,0,0),
-       cyclone::Matrix3(0,0,0, 0,0,0, -0.01f,0,0),
-       cyclone::Vector3(2.0f, 0.5f, 0), &windspeed),
+rudder(phyengine::Matrix3(0,0,0, 0,0,0, 0,0,0),
+       phyengine::Matrix3(0,0,0, 0,0,0, 0.01f,0,0),
+       phyengine::Matrix3(0,0,0, 0,0,0, -0.01f,0,0),
+       phyengine::Vector3(2.0f, 0.5f, 0), &windspeed),
 
-tail(cyclone::Matrix3(0,0,0, -1,-0.5f,0, 0,0,-0.1f),
-     cyclone::Vector3(2.0f, 0, 0), &windspeed),
+tail(phyengine::Matrix3(0,0,0, -1,-0.5f,0, 0,0,-0.1f),
+     phyengine::Vector3(2.0f, 0, 0), &windspeed),
 
 left_wing_control(0), right_wing_control(0), rudder_control(0),
 
@@ -72,13 +72,13 @@ windspeed(0,0,0)
     resetPlane();
 
     aircraft.setMass(2.5f);
-    cyclone::Matrix3 it;
-    it.setBlockInertiaTensor(cyclone::Vector3(2,1,1), 1);
+    phyengine::Matrix3 it;
+    it.setBlockInertiaTensor(phyengine::Vector3(2,1,1), 1);
     aircraft.setInertiaTensor(it);
 
     aircraft.setDamping(0.8f, 0.8f);
 
-    aircraft.setAcceleration(cyclone::Vector3::GRAVITY);
+    aircraft.setAcceleration(phyengine::Vector3::GRAVITY);
     aircraft.calculateDerivedData();
 
     aircraft.setAwake();
@@ -147,8 +147,8 @@ void FlightSimDemo::display()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
 
-    cyclone::Vector3 pos = aircraft.getPosition();
-    cyclone::Vector3 offset(4.0f+aircraft.getVelocity().magnitude(), 0, 0);
+    phyengine::Vector3 pos = aircraft.getPosition();
+    phyengine::Vector3 offset(4.0f+aircraft.getVelocity().magnitude(), 0, 0);
     offset = aircraft.getTransform().transformDirection(offset);
     gluLookAt(pos.x+offset.x, pos.y+5.0f, pos.z+offset.z,
               pos.x, pos.y, pos.z,
@@ -168,7 +168,7 @@ void FlightSimDemo::display()
     glEnd();
 
     // Set the transform matrix for the aircraft
-    cyclone::Matrix4 transform = aircraft.getTransform();
+    phyengine::Matrix4 transform = aircraft.getTransform();
     GLfloat gl_transform[16];
     transform.fillGLArray(gl_transform);
     glPushMatrix();
@@ -215,7 +215,7 @@ void FlightSimDemo::update()
     aircraft.clearAccumulators();
 
     // Add the propeller force
-    cyclone::Vector3 propulsion(-10.0f, 0, 0);
+    phyengine::Vector3 propulsion(-10.0f, 0, 0);
     propulsion = aircraft.getTransform().transformDirection(propulsion);
     aircraft.addForce(propulsion);
 
@@ -226,7 +226,7 @@ void FlightSimDemo::update()
     aircraft.integrate(duration);
 
     // Do a very basic collision detection and response with the ground.
-    cyclone::Vector3 pos = aircraft.getPosition();
+    phyengine::Vector3 pos = aircraft.getPosition();
     if (pos.y < 0.0f)
     {
         pos.y = 0.0f;

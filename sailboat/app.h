@@ -1,5 +1,5 @@
 #include <cstdlib>
-#include "cyclone.h"
+#include "phyengine.h"
 
 //
 // An application is the base class for all demonstration progams.

@@ -1,9 +1,9 @@
-#ifndef CYCLONE_PRECISION_H
-#define CYCLONE_PRECISION_H
+#ifndef PHYENGINE_PRECISION_H
+#define PHYENGINE_PRECISION_H
 
 #include <float.h>
 
-namespace cyclone {
+namespace phyengine {
 
 #if 0 //to select precision
 #else

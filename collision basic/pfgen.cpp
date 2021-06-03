@@ -1,6 +1,6 @@
 #include "pfgen.h"
 
-using namespace cyclone;
+using namespace phyengine;
 
 
 void ParticleForceRegistry::updateForces(real duration)

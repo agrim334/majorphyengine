@@ -1,4 +1,4 @@
-#include "cyclone.h"
+#include "phyengine.h"
 #include <GL/glut.h>
 #include "app.h"
 #include "timing.h"
@@ -6,13 +6,13 @@
 
 #include <stdio.h>
 
-static cyclone::Random crandom;
+static phyengine::Random crandom;
 
 /**
  * Fireworks are particles, with additional data for rendering and
  * evolution.
  */
-class Firework : public cyclone::Particle
+class Firework : public phyengine::Particle
 {
 public:
     /** Fireworks have an integer type, used for firework rules. */
@@ -23,14 +23,14 @@ public:
      * decreases, when it passes zero the firework delivers its payload.
      * Think of age as fuse-left.
      */
-    cyclone::real age;
+    phyengine::real age;
 
     /**
      * Updates the firework by the given duration of time. Returns true
      * if the firework has reached the end of its life and needs to be
      * removed.
      */
-    bool update(cyclone::real duration)
+    bool update(phyengine::real duration)
     {
         // Update our physical state
         integrate(duration);
@@ -51,19 +51,19 @@ struct FireworkRule
     unsigned type;
 
     /** The minimum length of the fuse. */
-    cyclone::real minAge;
+    phyengine::real minAge;
 
     /** The maximum legnth of the fuse. */
-    cyclone::real maxAge;
+    phyengine::real maxAge;
 
     /** The minimum relative velocity of this firework. */
-    cyclone::Vector3 minVelocity;
+    phyengine::Vector3 minVelocity;
 
     /** The maximum relative velocity of this firework. */
-    cyclone::Vector3 maxVelocity;
+    phyengine::Vector3 maxVelocity;
 
     /** The damping of this firework type. */
-    cyclone::real damping;
+    phyengine::real damping;
 
     /**
      * The payload is the new firework type to create when this
@@ -112,9 +112,9 @@ struct FireworkRule
     /**
      * Set all the rule parameters in one go.
      */
-    void setParameters(unsigned type, cyclone::real minAge, cyclone::real maxAge,
-        const cyclone::Vector3 &minVelocity, const cyclone::Vector3 &maxVelocity,
-        cyclone::real damping)
+    void setParameters(unsigned type, phyengine::real minAge, phyengine::real maxAge,
+        const phyengine::Vector3 &minVelocity, const phyengine::Vector3 &maxVelocity,
+        phyengine::real damping)
     {
         FireworkRule::type = type;
         FireworkRule::minAge = minAge;
@@ -134,7 +134,7 @@ struct FireworkRule
         firework->type = type;
         firework->age = crandom.randomReal(minAge, maxAge);
 
-        cyclone::Vector3 vel;
+        phyengine::Vector3 vel;
         if (parent) {
             // The position and velocity are based on the parent.
             firework->setPosition(parent->getPosition());
@@ -142,9 +142,9 @@ struct FireworkRule
         }
         else
         {
-            cyclone::Vector3 start;
+            phyengine::Vector3 start;
             int x = (int)crandom.randomInt(3) - 1;
-            start.x = 5.0f * cyclone::real(x);
+            start.x = 5.0f * phyengine::real(x);
             firework->setPosition(start);
         }
 
@@ -158,7 +158,7 @@ struct FireworkRule
 
         firework->setDamping(damping);
 
-        firework->setAcceleration(cyclone::Vector3::GRAVITY);
+        firework->setAcceleration(phyengine::Vector3::GRAVITY);
 
         firework->clearAccumulator();
     }
@@ -244,8 +244,8 @@ void FireworksDemo::initFireworkRules()
     rules[0].setParameters(
         1, // type
         0.5f, 1.4f, // age range
-        cyclone::Vector3(-5, 25, -5), // min velocity
-        cyclone::Vector3(5, 28, 5), // max velocity
+        phyengine::Vector3(-5, 25, -5), // min velocity
+        phyengine::Vector3(5, 28, 5), // max velocity
         0.1 // damping
         );
     rules[0].payloads[0].set(3, 5);
@@ -255,8 +255,8 @@ void FireworksDemo::initFireworkRules()
     rules[1].setParameters(
         2, // type
         0.5f, 1.0f, // age range
-        cyclone::Vector3(-5, 10, -5), // min velocity
-        cyclone::Vector3(5, 20, 5), // max velocity
+        phyengine::Vector3(-5, 10, -5), // min velocity
+        phyengine::Vector3(5, 20, 5), // max velocity
         0.8 // damping
         );
     rules[1].payloads[0].set(4, 2);
@@ -265,8 +265,8 @@ void FireworksDemo::initFireworkRules()
     rules[2].setParameters(
         3, // type
         0.5f, 1.5f, // age range
-        cyclone::Vector3(-5, -5, -5), // min velocity
-        cyclone::Vector3(5, 5, 5), // max velocity
+        phyengine::Vector3(-5, -5, -5), // min velocity
+        phyengine::Vector3(5, 5, 5), // max velocity
         0.1 // damping
         );
 
@@ -274,8 +274,8 @@ void FireworksDemo::initFireworkRules()
     rules[3].setParameters(
         4, // type
         0.25f, 0.5f, // age range
-        cyclone::Vector3(-20, 5, -5), // min velocity
-        cyclone::Vector3(20, 5, 5), // max velocity
+        phyengine::Vector3(-20, 5, -5), // min velocity
+        phyengine::Vector3(20, 5, 5), // max velocity
         0.2 // damping
         );
 
@@ -283,8 +283,8 @@ void FireworksDemo::initFireworkRules()
     rules[4].setParameters(
         5, // type
         0.5f, 1.0f, // age range
-        cyclone::Vector3(-20, 2, -5), // min velocity
-        cyclone::Vector3(20, 18, 5), // max velocity
+        phyengine::Vector3(-20, 2, -5), // min velocity
+        phyengine::Vector3(20, 18, 5), // max velocity
         0.01 // damping
         );
     rules[4].payloads[0].set(3, 5);
@@ -293,8 +293,8 @@ void FireworksDemo::initFireworkRules()
     rules[5].setParameters(
         6, // type
         3, 5, // age range
-        cyclone::Vector3(-5, 5, -5), // min velocity
-        cyclone::Vector3(5, 10, 5), // max velocity
+        phyengine::Vector3(-5, 5, -5), // min velocity
+        phyengine::Vector3(5, 10, 5), // max velocity
         0.95 // damping
         );
 
@@ -302,8 +302,8 @@ void FireworksDemo::initFireworkRules()
     rules[6].setParameters(
         7, // type
         4, 5, // age range
-        cyclone::Vector3(-5, 50, -5), // min velocity
-        cyclone::Vector3(5, 60, 5), // max velocity
+        phyengine::Vector3(-5, 50, -5), // min velocity
+        phyengine::Vector3(5, 60, 5), // max velocity
         0.01 // damping
         );
     rules[6].payloads[0].set(8, 10);
@@ -312,8 +312,8 @@ void FireworksDemo::initFireworkRules()
     rules[7].setParameters(
         8, // type
         0.25f, 0.5f, // age range
-        cyclone::Vector3(-1, -1, -1), // min velocity
-        cyclone::Vector3(1, 1, 1), // max velocity
+        phyengine::Vector3(-1, -1, -1), // min velocity
+        phyengine::Vector3(1, 1, 1), // max velocity
         0.01 // damping
         );
 
@@ -321,8 +321,8 @@ void FireworksDemo::initFireworkRules()
     rules[8].setParameters(
         9, // type
         3, 5, // age range
-        cyclone::Vector3(-15, 10, -5), // min velocity
-        cyclone::Vector3(15, 15, 5), // max velocity
+        phyengine::Vector3(-15, 10, -5), // min velocity
+        phyengine::Vector3(15, 15, 5), // max velocity
         0.95 // damping
         );
     // ... and so on for other firework types ...
@@ -402,7 +402,7 @@ void FireworksDemo::update()
 
 void FireworksDemo::display()
 {
-    const static cyclone::real size = 0.1f;
+    const static phyengine::real size = 0.1f;
 
     // Clear the viewport and set the camera direction
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -431,7 +431,7 @@ void FireworksDemo::display()
             case 9: glColor3f(1,0.5f,0.5f); break;
             };
 
-            const cyclone::Vector3 &pos = firework->getPosition();
+            const phyengine::Vector3 &pos = firework->getPosition();
             glVertex3f(pos.x-size, pos.y-size, pos.z);
             glVertex3f(pos.x+size, pos.y-size, pos.z);
             glVertex3f(pos.x+size, pos.y+size, pos.z);

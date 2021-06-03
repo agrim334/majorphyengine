@@ -1,9 +1,9 @@
-#ifndef CYCLONE_COLLISION_FINE_H
-#define CYCLONE_COLLISION_FINE_H
+#ifndef PHYENGINE_COLLISION_FINE_H
+#define PHYENGINE_COLLISION_FINE_H
 
 #include "contacts.h"
 
-namespace cyclone {
+namespace phyengine {
 
     // Forward declarations of primitive friends
     class IntersectionTests;
@@ -283,6 +283,6 @@ namespace cyclone {
 
 
 
-} // namespace cyclone
+} // namespace phyengine
 
-#endif // CYCLONE_COLLISION_FINE_H
+#endif // PHYENGINE_COLLISION_FINE_H

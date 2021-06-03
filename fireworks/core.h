@@ -1,10 +1,10 @@
 #include <math.h>
-#ifndef CYCLONE_CORE_H
-#define CYCLONE_CORE_H
+#ifndef PHYENGINE_CORE_H
+#define PHYENGINE_CORE_H
 
 #include "precision.h"
 
-namespace cyclone {
+namespace phyengine {
 
   class Vector3
 	{

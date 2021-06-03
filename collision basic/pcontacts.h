@@ -1,12 +1,9 @@
-#ifndef CYCLONE_PCONTACTS_H
-#define CYCLONE_PCONTACTS_H
+#ifndef PHYENGINE_PCONTACTS_H
+#define PHYENGINE_PCONTACTS_H
 
 #include "particle.h"
 
-namespace cyclone {
-
-  // Forward declaration, see full declaration below for complete
-  // documentation.
+namespace phyengine {
 	 
 	class ParticleContactResolver;
 
@@ -22,9 +19,6 @@ namespace cyclone {
 	 
 	class ParticleContact
 	{
-		// ... Other ParticleContact code as before ...
-
-
 		
 	  // The contact resolver object needs access into the contacts to
 	  // set and effect the contact.
@@ -147,6 +141,6 @@ namespace cyclone {
 
 
 
-} // namespace cyclone
+} // namespace phyengine
 
-#endif // CYCLONE_CONTACTS_H
+#endif // PHYENGINE_CONTACTS_H

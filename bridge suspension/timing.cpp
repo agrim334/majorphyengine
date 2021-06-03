@@ -1,6 +1,6 @@
 #include "timing.h"
 //credits to Ian Millington
-
+#include <iostream> // for debugging purpose
 static bool qpcFlag;
 
 #if (__APPLE__ || __unix)
@@ -36,12 +36,14 @@ unsigned systemTime()
 #else
     if(qpcFlag)
     {
+        // std::cout << "qpcFlag true\n";
         static LONGLONG qpcMillisPerTick;
         QueryPerformanceCounter((LARGE_INTEGER*)&qpcMillisPerTick);
         return (unsigned)(qpcMillisPerTick * qpcFrequency);
     }
     else
     {
+        // std::cout << "qpcFlag false\n";
         return unsigned(timeGetTime());
     }
 #endif
@@ -55,10 +57,10 @@ unsigned TimingData::getTime()
 
 #if TIMING_WINDOWS
 unsigned long systemClock()
-{
-    __asm {
-    	rdtsc;
-    }
+{   
+    __asm (
+    	"rdtsc;"
+    );
 }
 #endif
 
@@ -88,6 +90,7 @@ void initTime()
     // Check if we have access to the performance counter at this
     // resolution.
     if (qpcFlag) qpcFrequency = 1000.0 / time;
+
 #endif
 }
 
@@ -105,7 +108,7 @@ TimingData& TimingData::get()
 void TimingData::update()
 {
     if (!timingData) return;
-
+    // std::cout << "inside update " << timingData->fps << std::endl;
     // Advance the frame number.
     if (!timingData->isPaused)
     {
@@ -149,7 +152,6 @@ void TimingData::init()
 {
     // Set up the timing system.
     initTime();
-
     // Create the frame info object
     if (!timingData) timingData = new TimingData();
 
@@ -170,6 +172,7 @@ void TimingData::init()
 
 void TimingData::deinit()
 {
-        delete timingData;
-        timingData = NULL;
+    // std::cout << "deinit time" << std::endl;  <-- not working 
+    delete timingData;
+    timingData = NULL;
 }

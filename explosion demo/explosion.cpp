@@ -1,5 +1,5 @@
 
-#include "cyclone.h"
+#include "phyengine.h"
 #include "opengl_headers.h"
 #include "app.h"
 #include "timing.h"
@@ -18,12 +18,12 @@ GLfloat floorMirror[16] =
     0, 0, 0, 1
 };
 
-class Ball : public cyclone::CollisionSphere
+class Ball : public phyengine::CollisionSphere
 {
 public:
     Ball()
     {
-        body = new cyclone::RigidBody;
+        body = new phyengine::RigidBody;
     }
 
     ~Ball()
@@ -62,22 +62,22 @@ public:
     }
 
     /** Sets the box to a specific location. */
-    void setState(cyclone::Vector3 position,
-                  cyclone::Quaternion orientation,
-                  cyclone::real radius,
-                  cyclone::Vector3 velocity)
+    void setState(phyengine::Vector3 position,
+                  phyengine::Quaternion orientation,
+                  phyengine::real radius,
+                  phyengine::Vector3 velocity)
     {
         body->setPosition(position);
         body->setOrientation(orientation);
         body->setVelocity(velocity);
-        body->setRotation(cyclone::Vector3(0,0,0));
+        body->setRotation(phyengine::Vector3(0,0,0));
         Ball::radius = radius;
 
-        cyclone::real mass = 4.0f*0.3333f*3.1415f * radius*radius*radius;
+        phyengine::real mass = 4.0f*0.3333f*3.1415f * radius*radius*radius;
         body->setMass(mass);
 
-        cyclone::Matrix3 tensor;
-        cyclone::real coeff = 0.4f*mass*radius*radius;
+        phyengine::Matrix3 tensor;
+        phyengine::real coeff = 0.4f*mass*radius*radius;
         tensor.setInertiaTensorCoeffs(coeff,coeff,coeff);
         body->setInertiaTensor(tensor);
 
@@ -93,28 +93,28 @@ public:
     }
 
     /** Positions the box at a random location. */
-    void random(cyclone::Random *random)
+    void random(phyengine::Random *random)
     {
-        const static cyclone::Vector3 minPos(-5, 5, -5);
-        const static cyclone::Vector3 maxPos(5, 10, 5);
-        cyclone::Random r;
+        const static phyengine::Vector3 minPos(-5, 5, -5);
+        const static phyengine::Vector3 maxPos(5, 10, 5);
+        phyengine::Random r;
         setState(
             random->randomVector(minPos, maxPos),
             random->randomQuaternion(),
             random->randomReal(0.5f, 1.5f),
-            cyclone::Vector3()
+            phyengine::Vector3()
             );
     }
 };
 
-class Box : public cyclone::CollisionBox
+class Box : public phyengine::CollisionBox
 {
 public:
     bool isOverlapping;
 
     Box()
     {
-        body = new cyclone::RigidBody;
+        body = new phyengine::RigidBody;
     }
 
     ~Box()
@@ -156,21 +156,21 @@ public:
     }
 
     /** Sets the box to a specific location. */
-    void setState(const cyclone::Vector3 &position,
-                  const cyclone::Quaternion &orientation,
-                  const cyclone::Vector3 &extents,
-                  const cyclone::Vector3 &velocity)
+    void setState(const phyengine::Vector3 &position,
+                  const phyengine::Quaternion &orientation,
+                  const phyengine::Vector3 &extents,
+                  const phyengine::Vector3 &velocity)
     {
         body->setPosition(position);
         body->setOrientation(orientation);
         body->setVelocity(velocity);
-        body->setRotation(cyclone::Vector3(0,0,0));
+        body->setRotation(phyengine::Vector3(0,0,0));
         halfSize = extents;
 
-        cyclone::real mass = halfSize.x * halfSize.y * halfSize.z * 8.0f;
+        phyengine::real mass = halfSize.x * halfSize.y * halfSize.z * 8.0f;
         body->setMass(mass);
 
-        cyclone::Matrix3 tensor;
+        phyengine::Matrix3 tensor;
         tensor.setBlockInertiaTensor(halfSize, mass);
         body->setInertiaTensor(tensor);
 
@@ -185,18 +185,18 @@ public:
     }
 
     /** Positions the box at a random location. */
-    void random(cyclone::Random *random)
+    void random(phyengine::Random *random)
     {
-        const static cyclone::Vector3 minPos(-5, 5, -5);
-        const static cyclone::Vector3 maxPos(5, 10, 5);
-        const static cyclone::Vector3 minSize(0.5f, 0.5f, 0.5f);
-        const static cyclone::Vector3 maxSize(4.5f, 1.5f, 1.5f);
+        const static phyengine::Vector3 minPos(-5, 5, -5);
+        const static phyengine::Vector3 maxPos(5, 10, 5);
+        const static phyengine::Vector3 minSize(0.5f, 0.5f, 0.5f);
+        const static phyengine::Vector3 maxSize(4.5f, 1.5f, 1.5f);
 
         setState(
             random->randomVector(minPos, maxPos),
             random->randomQuaternion(),
             random->randomVector(minSize, maxSize),
-            cyclone::Vector3()
+            phyengine::Vector3()
             );
     }
 };
@@ -235,7 +235,7 @@ class ExplosionDemo : public RigidBodyApplication
     virtual void generateContacts();
 
     /** Processes the objects in the simulation forward in time. */
-    virtual void updateObjects(cyclone::real duration);
+    virtual void updateObjects(phyengine::real duration);
 
 public:
     /** Creates a new demo object. */
@@ -275,7 +275,7 @@ const char* ExplosionDemo::getTitle()
 
 void ExplosionDemo::fire()
 {
-    cyclone::Vector3 pos = ballData[0].body->getPosition();
+    phyengine::Vector3 pos = ballData[0].body->getPosition();
     pos.normalise();
 
     ballData[0].body->addForce(pos * -1000.0f);
@@ -285,21 +285,21 @@ void ExplosionDemo::reset()
 {
     Box *box = boxData;
 
-    box++->setState(cyclone::Vector3(0,3,0),
-                    cyclone::Quaternion(),
-                    cyclone::Vector3(4,1,1),
-                    cyclone::Vector3(0,1,0));
+    box++->setState(phyengine::Vector3(0,3,0),
+                    phyengine::Quaternion(),
+                    phyengine::Vector3(4,1,1),
+                    phyengine::Vector3(0,1,0));
 
     if (boxes > 1)
     {
-        box++->setState(cyclone::Vector3(0,4.75,2),
-                        cyclone::Quaternion(1.0,0.1,0.05,0.01),
-                        cyclone::Vector3(1,1,4),
-                        cyclone::Vector3(0,1,0));
+        box++->setState(phyengine::Vector3(0,4.75,2),
+                        phyengine::Quaternion(1.0,0.1,0.05,0.01),
+                        phyengine::Vector3(1,1,4),
+                        phyengine::Vector3(0,1,0));
     }
 
     // Create the random objects
-    cyclone::Random random;
+    phyengine::Random random;
     for (; box < boxData+boxes; box++)
     {
         box->random(&random);
@@ -321,32 +321,32 @@ void ExplosionDemo::generateContacts()
     // store.
 
     // Create the ground plane data
-    cyclone::CollisionPlane plane;
-    plane.direction = cyclone::Vector3(0,1,0);
+    phyengine::CollisionPlane plane;
+    plane.direction = phyengine::Vector3(0,1,0);
     plane.offset = 0;
 
     // Set up the collision data structure
     cData.reset(maxContacts);
-    cData.friction = (cyclone::real)0.9;
-    cData.restitution = (cyclone::real)0.6;
-    cData.tolerance = (cyclone::real)0.1;
+    cData.friction = (phyengine::real)0.9;
+    cData.restitution = (phyengine::real)0.6;
+    cData.tolerance = (phyengine::real)0.1;
 
     // Perform exhaustive collision detection
-    cyclone::Matrix4 transform, otherTransform;
-    cyclone::Vector3 position, otherPosition;
+    phyengine::Matrix4 transform, otherTransform;
+    phyengine::Vector3 position, otherPosition;
     for (Box *box = boxData; box < boxData+boxes; box++)
     {
         // Check for collisions with the ground plane
         if (!cData.hasMoreContacts()) return;
-        cyclone::CollisionDetector::boxAndHalfSpace(*box, plane, &cData);
+        phyengine::CollisionDetector::boxAndHalfSpace(*box, plane, &cData);
 
         // Check for collisions with each other box
         for (Box *other = box+1; other < boxData+boxes; other++)
         {
             if (!cData.hasMoreContacts()) return;
-            cyclone::CollisionDetector::boxAndBox(*box, *other, &cData);
+            phyengine::CollisionDetector::boxAndBox(*box, *other, &cData);
 
-            if (cyclone::IntersectionTests::boxAndBox(*box, *other))
+            if (phyengine::IntersectionTests::boxAndBox(*box, *other))
             {
                 box->isOverlapping = other->isOverlapping = true;
             }
@@ -356,7 +356,7 @@ void ExplosionDemo::generateContacts()
         for (Ball *other = ballData; other < ballData+balls; other++)
         {
             if (!cData.hasMoreContacts()) return;
-            cyclone::CollisionDetector::boxAndSphere(*box, *other, &cData);
+            phyengine::CollisionDetector::boxAndSphere(*box, *other, &cData);
         }
     }
 
@@ -364,18 +364,18 @@ void ExplosionDemo::generateContacts()
     {
         // Check for collisions with the ground plane
         if (!cData.hasMoreContacts()) return;
-        cyclone::CollisionDetector::sphereAndHalfSpace(*ball, plane, &cData);
+        phyengine::CollisionDetector::sphereAndHalfSpace(*ball, plane, &cData);
 
         for (Ball *other = ball+1; other < ballData+balls; other++)
         {
             // Check for collisions with the ground plane
             if (!cData.hasMoreContacts()) return;
-            cyclone::CollisionDetector::sphereAndSphere(*ball, *other, &cData);
+            phyengine::CollisionDetector::sphereAndSphere(*ball, *other, &cData);
         }
     }
 }
 
-void ExplosionDemo::updateObjects(cyclone::real duration)
+void ExplosionDemo::updateObjects(phyengine::real duration)
 {
     // Update the physics of each box in turn
     for (Box *box = boxData; box < boxData+boxes; box++)
@@ -512,7 +512,7 @@ void ExplosionDemo::mouseDrag(int x, int y)
     if (editMode)
     {
         boxData[0].body->setPosition(boxData[0].body->getPosition() +
-            cyclone::Vector3(
+            phyengine::Vector3(
                 (x-last_x) * 0.125f,
                 0,
                 (y-last_y) * 0.125f
@@ -523,7 +523,7 @@ void ExplosionDemo::mouseDrag(int x, int y)
     else if (upMode)
     {
         boxData[0].body->setPosition(boxData[0].body->getPosition() +
-            cyclone::Vector3(
+            phyengine::Vector3(
                 0,
                 (y-last_y) * 0.125f,
                 0

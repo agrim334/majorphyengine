@@ -5,7 +5,7 @@
 #include <ctime>
 #include "random.h"
 
-using namespace cyclone;
+using namespace phyengine;
 
 Random::Random()
 {

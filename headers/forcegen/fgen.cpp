@@ -1,6 +1,6 @@
 #include "fgen.h"
 
-using namespace cyclone;
+using namespace phyengine;
 
 void ForceRegistry::updateForces(real duration)
 {

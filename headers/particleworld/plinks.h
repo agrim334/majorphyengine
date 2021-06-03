@@ -1,9 +1,9 @@
-#ifndef CYCLONE_PLINKS_H
-#define CYCLONE_PLINKS_H
+#ifndef PHYENGINE_PLINKS_H
+#define PHYENGINE_PLINKS_H
 
 #include "pcontacts.h"
 
-namespace cyclone {
+namespace phyengine {
 
     
  // Links connect two particles together, generating a contact if
@@ -175,6 +175,6 @@ namespace cyclone {
         virtual unsigned addContact(ParticleContact *contact,
             unsigned limit) const;
     };
-} // namespace cyclone
+} // namespace phyengine
 
-#endif // CYCLONE_CONTACTS_H
+#endif // PHYENGINE_CONTACTS_H

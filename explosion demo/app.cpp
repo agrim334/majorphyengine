@@ -193,7 +193,7 @@ void RigidBodyApplication::drawDebug()
             glColor3f(1,0,0);
         }
 
-        cyclone::Vector3 vec = contacts[i].contactPoint;
+        phyengine::Vector3 vec = contacts[i].contactPoint;
         glVertex3f(vec.x, vec.y, vec.z);
 
         vec += contacts[i].contactNormal;

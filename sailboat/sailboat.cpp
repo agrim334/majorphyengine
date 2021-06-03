@@ -1,4 +1,4 @@
-#include "cyclone.h"
+#include "phyengine.h"
 #include "opengl_headers.h"
 #include "app.h"
 #include "timing.h"
@@ -8,14 +8,14 @@
 
 class SailboatDemo : public Application
 {
-    cyclone::Buoyancy buoyancy;
+    phyengine::Buoyancy buoyancy;
 
-    cyclone::Aero sail;
-    cyclone::RigidBody sailboat;
-    cyclone::ForceRegistry registry;
+    phyengine::Aero sail;
+    phyengine::RigidBody sailboat;
+    phyengine::ForceRegistry registry;
 
-    cyclone::Random r;
-    cyclone::Vector3 windspeed;
+    phyengine::Random r;
+    phyengine::Vector3 windspeed;
 
     float sail_control;
 
@@ -42,10 +42,10 @@ SailboatDemo::SailboatDemo()
 :
 Application(),
 
-sail(cyclone::Matrix3(0,0,0, 0,0,0, 0,0,-1.0f),
-     cyclone::Vector3(2.0f, 0, 0), &windspeed),
+sail(phyengine::Matrix3(0,0,0, 0,0,0, 0,0,-1.0f),
+     phyengine::Vector3(2.0f, 0, 0), &windspeed),
 
-buoyancy(cyclone::Vector3(0.0f, 0.5f, 0.0f), 1.0f, 3.0f, 1.6f),
+buoyancy(phyengine::Vector3(0.0f, 0.5f, 0.0f), 1.0f, 3.0f, 1.6f),
 
 sail_control(0),
 
@@ -59,13 +59,13 @@ windspeed(0,0,0)
     sailboat.setRotation(0,0,0);
 
     sailboat.setMass(200.0f);
-    cyclone::Matrix3 it;
-    it.setBlockInertiaTensor(cyclone::Vector3(2,1,1), 100.0f);
+    phyengine::Matrix3 it;
+    it.setBlockInertiaTensor(phyengine::Vector3(2,1,1), 100.0f);
     sailboat.setInertiaTensor(it);
 
     sailboat.setDamping(0.8f, 0.8f);
 
-    sailboat.setAcceleration(cyclone::Vector3::GRAVITY);
+    sailboat.setAcceleration(phyengine::Vector3::GRAVITY);
     sailboat.calculateDerivedData();
 
     sailboat.setAwake();
@@ -117,8 +117,8 @@ void SailboatDemo::display()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
 
-    cyclone::Vector3 pos = sailboat.getPosition();
-    cyclone::Vector3 offset(4.0f, 0, 0);
+    phyengine::Vector3 pos = sailboat.getPosition();
+    phyengine::Vector3 offset(4.0f, 0, 0);
     offset = sailboat.getTransform().transformDirection(offset);
     gluLookAt(pos.x+offset.x, pos.y+5.0f, pos.z+offset.z,
               pos.x, pos.y, pos.z,
@@ -138,7 +138,7 @@ void SailboatDemo::display()
     glEnd();
 
     // Set the transform matrix for the aircraft
-    cyclone::Matrix4 transform = sailboat.getTransform();
+    phyengine::Matrix4 transform = sailboat.getTransform();
     GLfloat gl_transform[16];
     transform.fillGLArray(gl_transform);
     glPushMatrix();

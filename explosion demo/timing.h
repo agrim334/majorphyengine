@@ -1,5 +1,5 @@
-#ifndef CYCLONE_DEMO_TIMING_H
-#define CYCLONE_DEMO_TIMING_H
+#ifndef PHYENGINE_DEMO_TIMING_H
+#define PHYENGINE_DEMO_TIMING_H
 
 struct TimingData
 {
@@ -87,4 +87,4 @@ private:
 };
 
 
-#endif // CYCLONE_DEMO_TIMING_H
+#endif // PHYENGINE_DEMO_TIMING_H

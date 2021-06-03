@@ -1,5 +1,5 @@
-#ifndef CYCLONE_DEMO_TIMING_H
-#define CYCLONE_DEMO_TIMING_H
+#ifndef PHYENGINE_DEMO_TIMING_H
+#define PHYENGINE_DEMO_TIMING_H
 //credits to Ian Millington
 
 struct TimingData

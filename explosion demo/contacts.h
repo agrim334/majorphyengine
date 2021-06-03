@@ -1,9 +1,9 @@
-#ifndef CYCLONE_CONTACTS_H
-#define CYCLONE_CONTACTS_H
+#ifndef PHYENGINE_CONTACTS_H
+#define PHYENGINE_CONTACTS_H
 
 #include "body.h"
 
-namespace cyclone {
+namespace phyengine {
 
     class ContactResolver;
 

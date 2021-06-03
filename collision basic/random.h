@@ -1,10 +1,10 @@
-#ifndef CYCLONE_RANDOM_H
-#define CYCLONE_RANDOM_H
+#ifndef PHYENGINE_RANDOM_H
+#define PHYENGINE_RANDOM_H
 
 //Credits to Ian millington for the implementation of this library
 #include "core.h"
 
-namespace cyclone {
+namespace phyengine {
 
 	class Random
 	{

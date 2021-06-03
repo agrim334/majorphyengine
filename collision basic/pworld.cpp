@@ -1,7 +1,7 @@
 #include <cstddef>
 #include "pworld.h"
 
-using namespace cyclone;
+using namespace phyengine;
 
 ParticleWorld::ParticleWorld(unsigned maxContacts, unsigned iterations)
 :
@@ -96,23 +96,23 @@ ParticleForceRegistry& ParticleWorld::getForceRegistry()
     return registry;
 }
 
-void GroundContacts::init(cyclone::ParticleWorld::Particles *particles)
+void GroundContacts::init(phyengine::ParticleWorld::Particles *particles)
 {
     GroundContacts::particles = particles;
 }
 
-unsigned GroundContacts::addContact(cyclone::ParticleContact *contact,
+unsigned GroundContacts::addContact(phyengine::ParticleContact *contact,
                                     unsigned limit) const
 {
     unsigned count = 0;
-    for (cyclone::ParticleWorld::Particles::iterator p = particles->begin();
+    for (phyengine::ParticleWorld::Particles::iterator p = particles->begin();
         p != particles->end();
         p++)
     {
-        cyclone::real y = (*p)->getPosition().y;
+        phyengine::real y = (*p)->getPosition().y;
         if (y < 0.0f)
         {
-            contact->contactNormal = cyclone::Vector3::UP;
+            contact->contactNormal = phyengine::Vector3::UP;
             contact->particle[0] = *p;
             contact->particle[1] = NULL;
             contact->penetration = -y;

@@ -1,6 +1,6 @@
 #include "pcontacts.h"
 
-using namespace cyclone;
+using namespace phyengine;
 
 // Contact implementation
 

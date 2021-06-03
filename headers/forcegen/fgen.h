@@ -1,14 +1,10 @@
-/*
- * Interface file for the force generators.
- */
-
-#ifndef CYCLONE_FGEN_H
-#define CYCLONE_FGEN_H
+#ifndef PHYENGINE_FGEN_H
+#define PHYENGINE_FGEN_H
 
 #include "body.h"
 #include <vector>
 
-namespace cyclone {
+namespace phyengine {
 
     /**
      * A force generator can be asked to add a force to one or more
@@ -221,4 +217,4 @@ namespace cyclone {
 }
 
 
-#endif // CYCLONE_FGEN_H
+#endif // PHYENGINE_FGEN_H

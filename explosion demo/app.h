@@ -1,6 +1,6 @@
 #include <cstdlib>
 
-#include "cyclone.h"
+#include "phyengine.h"
 
 class Application
 {
@@ -124,13 +124,13 @@ public:
 	const static unsigned maxContacts = 256;
 
 	/** Holds the array of contacts. */
-	cyclone::Contact contacts[maxContacts];
+	phyengine::Contact contacts[maxContacts];
 
 	/** Holds the collision data structure for collision detection. */
-	cyclone::CollisionData cData;
+	phyengine::CollisionData cData;
 
 	/** Holds the contact resolver. */
-	cyclone::ContactResolver resolver;
+	phyengine::ContactResolver resolver;
 
 	/** Holds the camera angle. */
 	float theta;
@@ -154,7 +154,7 @@ public:
 	virtual void generateContacts() = 0;
 
 	/** Processes the objects in the simulation forward in time. */
-	virtual void updateObjects(cyclone::real duration) = 0;
+	virtual void updateObjects(phyengine::real duration) = 0;
 
 	/**
 	 * Finishes drawing the frame, adding debugging information

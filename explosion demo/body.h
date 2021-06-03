@@ -1,9 +1,9 @@
-#ifndef CYCLONE_BODY_H
-#define CYCLONE_BODY_H
+#ifndef PHYENGINE_BODY_H
+#define PHYENGINE_BODY_H
 
 #include "core.h"
 
-namespace cyclone {
+namespace phyengine {
 
 	class RigidBody
 	{
@@ -547,6 +547,6 @@ namespace cyclone {
 
 	};
 
-} // namespace cyclone
+} // namespace phyengine
 
-#endif // CYCLONE_BODY_H
+#endif // PHYENGINE_BODY_H

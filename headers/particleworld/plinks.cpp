@@ -1,6 +1,6 @@
 #include "plinks.h"
 
-using namespace cyclone;
+using namespace phyengine;
 
 real ParticleLink::currentLength() const
 {

@@ -1,5 +1,5 @@
 #include <cstdlib>
-#include "cyclone.h"
+#include "phyengine.h"
 
 //
 // An application is the base class for all demonstration progams.
@@ -116,9 +116,9 @@ public:
 class MassAggregateApplication : public Application
 {
 protected:
-    cyclone::ParticleWorld world;
-    cyclone::Particle *particleArray;
-    cyclone::GroundContacts groundContactGenerator;
+    phyengine::ParticleWorld world;
+    phyengine::Particle *particleArray;
+    phyengine::GroundContacts groundContactGenerator;
 
 public:
     MassAggregateApplication(unsigned int particleCount);

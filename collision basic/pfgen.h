@@ -1,11 +1,11 @@
-#ifndef CYCLONE_PFGEN_H
-#define CYCLONE_PFGEN_H
+#ifndef PHYENGINE_PFGEN_H
+#define PHYENGINE_PFGEN_H
 
 #include "core.h"
 #include "particle.h"
 #include <vector>
 
-namespace cyclone {
+namespace phyengine {
 
     //
    // A force generator can be asked to add a force to one or more
@@ -276,4 +276,4 @@ namespace cyclone {
     };
 }
 
-#endif // CYCLONE_PFGEN_H
+#endif // PHYENGINE_PFGEN_H
