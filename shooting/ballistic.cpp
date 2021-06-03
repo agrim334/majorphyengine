@@ -1,4 +1,4 @@
-#include "cyclone.h"
+#include "phyengine.h"
 #include <GL/glut.h>
 #include "app.h"
 #include "timing.h"
@@ -24,14 +24,14 @@ class BallisticDemo : public Application
      */
     struct AmmoRound
     {
-        cyclone::Particle particle;
+        phyengine::Particle particle;
         ShotType type;
         unsigned startTime;
 
         /** Draws the round. */
         void render()
         {
-            cyclone::Vector3 position;
+            phyengine::Vector3 position;
             particle.getPosition(&position);
 
             glColor3f(0, 0, 0);

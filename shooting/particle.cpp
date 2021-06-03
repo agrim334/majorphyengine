@@ -1,7 +1,7 @@
 #include <assert.h>
 #include "particle.h"
 
-using namespace cyclone;
+using namespace phyengine;
 
 void Particle::integrate(real duration)
 {

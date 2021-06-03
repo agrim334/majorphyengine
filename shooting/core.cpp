@@ -1,6 +1,6 @@
 #include "core.h"
 
-using namespace cyclone;
+using namespace phyengine;
 //basic definitions
 const Vector3 Vector3::GRAVITY = Vector3(0, -9.81, 0);
 const Vector3 Vector3::HIGH_GRAVITY = Vector3(0, -19.62, 0);

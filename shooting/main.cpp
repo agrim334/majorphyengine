@@ -81,10 +81,11 @@ void motion(int x, int y)
  // The main entry point. We pass arguments onto GLUT.
 int main(int argc, char** argv)
 {
-    // Set up GLUT and the timers
+    /* std::cout << "entry" << std::endl; */
+    
     glutInit(&argc, argv);
     TimingData::init();
-
+    
     // Create the application and its window
     app = getApplication();
     createWindow(app->getTitle());
